@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments :: head(~{::title})">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户设置-Jerry's Blog</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+  <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css">
+  <link rel="stylesheet" href="../../static/css/me.css">
+</head>
+<body>
+
+<!--导航-->
+<nav th:replace="admin/_fragments :: menu(4)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
+  <div class="ui container">
+    <div class="ui inverted secondary stackable menu">
+      <h2 class="ui teal header item">管理后台</h2>
+      <a href="#" class="active m-item item m-mobile-hide"><i class="mini home icon"></i>博客</a>
+      <a href="#" class=" m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
+      <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+      <div class="right m-item m-mobile-hide menu">
+        <div class="ui dropdown  item">
+          <div class="text">
+            <img class="ui avatar image" src="https://unsplash.it/100/100?image=1005">
+          </div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a href="#" class="item">注销</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+    <i class="sidebar icon"></i>
+  </a>
+</nav>
+
+<!--中间内容-->
+<div  class="m-container m-padded-tb-big">
+  <div class="ui container">
+    <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+      <i class="close icon"></i>
+      <div class="header">提示：</div>
+      <p th:text="${message}">恭喜，操作成功！</p>
+    </div>
+    <form id="user-form" action="#" th:object="${user}" th:action="@{/admin/submit}" method="post" class="ui form" enctype="multipart/form-data">
+      <input type="hidden" name="id" th:value="*{id}">
+      <input type="hidden" name="username" th:value="*{username}">
+      <div class="required field">
+        <div class="ui left labeled input">
+          <label class="ui black basic label" >昵称</label>
+          <input class="inputAble" type="text" name="nickname" placeholder="昵称" th:value="*{nickname}" >
+        </div>
+      </div>
+
+      <div class="required field">
+        <div class="ui left labeled input">
+          <label class="ui black basic label">E-mail</label>
+          <input class="inputAble" type="text" name="email" placeholder="email" th:value="*{email}" >
+        </div>
+      </div>
+
+      <div class="required field">
+        <div class="ui left labeled input">
+          <label class="ui black basic label">QQ</label>
+          <input class="inputAble" type="text" name="qq" placeholder="qq" th:value="*{qq}"  >
+        </div>
+      </div>
+      <div class="required field">
+        <div class="ui left labeled input">
+          <label class="ui black basic label">密码</label>
+          <input class="inputAble" type="text" name="password" placeholder="设置新的密码" th:value="*{password}">
+        </div>
+      </div>
+      <div class="required field">
+        <textarea class="inputAble" name="description" th:text="*{description}" placeholder="个人描述..." maxlength="200"></textarea>
+      </div>
+      <div class="required field">
+        <div class="ui left labeled input">
+          <label class="ui black basic label">头像</label>
+          <input class="inputAble" type="file" name="file" >
+          <input type="hidden" name="avatar" th:value="*{avatar}" >
+        </div>
+      </div>
+      <div class="required field">
+        <div class="ui left labeled input">
+          <label class="ui black basic label">微信二维码</label>
+          <input class="inputAble" type="file" name="file2" >
+          <input type="hidden" name="WeChatQRCode" th:value="*{WeChatQRCode}" >
+        </div>
+      </div>
+
+      <div class="ui right aligned container">
+        <button type="button" id="editing-btn" class="ui black button">确定</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<br>
+<br>
+<!--底部footer-->
+<footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+  <div class="ui center aligned container">
+
+    <div class="ui inverted section divider"></div>
+    <p class="m-text-thin m-text-spaced m-opacity-tiny">copyright © 2020 - Jerry Designed by Jerry</p>
+  </div>
+
+</footer>
+<!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+
+
+<script>
+
+
+  $('#editing-btn').click(function () {
+      $('.inputAble').removeAttr("disabled");
+      $('#cancel-btn').removeAttr("hidden");
+      $('#user-form').submit();
+  });
+
+  //消息提示关闭初始化
+  $('.message .close')
+          .on('click', function () {
+            $(this)
+                    .closest('.message')
+                    .transition('fade');
+          });
+
+</script>
+</body>
+</html>
