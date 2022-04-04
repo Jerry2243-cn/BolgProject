@@ -26,7 +26,7 @@
 
     <groupId>com.jerry</groupId>
     <artifactId>project</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.1</version>
     <name>MyBlogProject</name>
     <description>Demo project for Spring Boot</description>
 
