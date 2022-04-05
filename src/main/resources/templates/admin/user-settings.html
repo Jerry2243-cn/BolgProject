@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="admin/_fragments :: head(~{::title})">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>用户设置-Jerry's Blog</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
-  <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css">
-  <link rel="stylesheet" href="../../static/css/me.css">
 </head>
 <body>
 
@@ -36,7 +31,7 @@
   </a>
 </nav>
 
-<!--中间内容-->
+
 <div  class="m-container m-padded-tb-big">
   <div class="ui container">
     <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
@@ -102,27 +97,27 @@
 <br>
 <br>
 <!--底部footer-->
-<footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
-  <div class="ui center aligned container">
-
-    <div class="ui inverted section divider"></div>
-    <p class="m-text-thin m-text-spaced m-opacity-tiny">copyright © 2020 - Jerry Designed by Jerry</p>
-  </div>
-
-</footer>
-<!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
+<footer th:replace="admin/_fragments :: footer"/>
+<!--/*/<th:block th:replace="_fragments :: script">/*/-->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
 <!--/*/</th:block>/*/-->
 
-
 <script>
 
 
+  $('.menu.toggle').click(function () {
+    $('.m-item').toggleClass('m-mobile-hide');
+  });
+
+  $('.ui.dropdown').dropdown({
+    on : 'hover'
+  });
+
   $('#editing-btn').click(function () {
-      $('.inputAble').removeAttr("disabled");
-      $('#cancel-btn').removeAttr("hidden");
-      $('#user-form').submit();
+    $('.inputAble').removeAttr("disabled");
+    $('#cancel-btn').removeAttr("hidden");
+    $('#user-form').submit();
   });
 
   //消息提示关闭初始化

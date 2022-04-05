@@ -12,7 +12,7 @@
 
 <!--导航-->
 <nav th:replace="admin/_fragments :: menu(1)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
-  <div class="ui container">
+  <div  class="ui container">
     <div class="ui inverted secondary stackable menu">
       <h2 class="ui teal header item">管理后台</h2>
       <a href="#" class="active m-item item m-mobile-hide"><i class="mini home icon"></i>博客</a>
@@ -35,7 +35,7 @@
     <i class="sidebar icon"></i>
   </a>
 </nav>
-<div class="ui attached pointing menu">
+<div id="pm" class="ui attached pointing menu">
   <div class="ui container">
     <div class="right menu">
       <a href="#" th:href="@{/admin/blogs/input}" class="black active item">发布</a>
@@ -45,7 +45,7 @@
 </div>
 
 <!--中间内容-->
-<div  class="m-container m-padded-tb-big">
+<div  class="m-container-a m-padded-tb-big">
   <div class="ui container">
     <form id="blog-form" action="#" th:object="${blog}" th:action="@{/admin/blogs}" method="post" class="ui form" enctype="multipart/form-data">
       <input type="hidden" name="published" th:value="*{published}">

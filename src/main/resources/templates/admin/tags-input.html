@@ -35,7 +35,7 @@
       <i class="sidebar icon"></i>
     </a>
   </nav>
-  <div class="ui attached pointing menu">
+  <div id="pm" class="ui attached pointing menu">
     <div class="ui container">
       <div class="right menu">
         <a href="#" th:href="@{/admin/tags/input}" class="active black item">新增</a>
@@ -45,7 +45,7 @@
   </div>
 
   <!--中间内容-->
-  <div  class="m-container-small m-padded-tb-big">
+  <div  class="m-container-small-a m-padded-tb-big">
     <div class="ui container">
       <form action="#" method="post"  th:object="${tag}" th:action="*{id}==null ? @{/admin/tags} : @{/admin/tags/{id}(id=*{id})} "  class="ui form">
         <input type="hidden" name="id" th:value="*{id}">

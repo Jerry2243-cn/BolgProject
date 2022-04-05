@@ -2,6 +2,29 @@
 body {
     background: url("../images/bg.png");
 }
+#pm{
+    margin-top: 60px;
+}
+
+#search-div{
+    padding: 5px !important;
+}
+
+#logo{
+  padding: 15px !important;
+}
+
+#adminLogo{
+    padding: 15px !important;
+}
+
+#blogNavbar {
+    position:fixed;
+    top:0;
+    height: 60px;
+    z-index:99;
+    transition: height 0.2s !important;
+}
 
 .m-padded-mini {
     padding: 0.2em !important;
@@ -102,7 +125,7 @@ body {
 .m-right-top {
     position: absolute;
     top:0;
-    right: 0;
+    right: 10px;
 }
 
 /*------display------*/
@@ -115,13 +138,26 @@ body {
 
 /*-----container*/
 
-.m-container {
-    max-width: 72em !important;
+
+.m-container-a {
+    max-width: 90em !important;
     margin: auto !important;
 }
-.m-container-small {
-    max-width: 60em !important;
+.m-container-small-a {
+    max-width: 80em !important;
     margin: auto !important;
+}
+
+
+.m-container {
+    max-width: 90em !important;
+    margin: auto !important;
+    margin-top: 50px !important;
+}
+.m-container-small {
+    max-width: 70em !important;
+    margin: auto !important;
+    margin-top: 50px !important;
 }
 
 /*------shadow------*/
@@ -148,7 +184,7 @@ body {
     color: #333 !important;
 }
 .m-teal {
-    color: #00B5AD !important;
+    color: #000000 !important;
 }
 
 .m-mobile-show {
@@ -159,7 +195,6 @@ body {
 
     .m-mobile-hide {
         display: none !important;
-
     }
     .m-mobile-show {
         display: block !important;

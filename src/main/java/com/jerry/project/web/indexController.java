@@ -33,7 +33,7 @@ public class indexController {
     private TagService tagService;
 
     @GetMapping("/")
-    public String index(@PageableDefault(size = 8,sort = "updateDate",direction = Sort.Direction.DESC)Pageable pageable,
+    public String index(@PageableDefault(size = 8,sort = "createDate",direction = Sort.Direction.DESC)Pageable pageable,
                         Model model){
         typeService.setPublishedCount();
         tagService.setPublishedCount();
@@ -47,7 +47,7 @@ public class indexController {
     }
 
     @PostMapping("/search")
-    public String search(@PageableDefault(size = 8,sort = "updateDate",direction = Sort.Direction.DESC)Pageable pageable,
+    public String search(@PageableDefault(size = 8,sort = "createDate",direction = Sort.Direction.DESC)Pageable pageable,
                          @RequestParam String query, Model model){
         BlogQuery blogQuery = new BlogQuery();
         blogQuery.setTitle("%"+query+"%");

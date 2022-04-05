@@ -48,7 +48,7 @@ public class BlogController {
     private FileService fileService;
 
     @GetMapping("blogs")
-    public String blogs(@PageableDefault(size = 10,sort ={"updateDate"},direction = Sort.Direction.DESC) Pageable pageable,
+    public String blogs(@PageableDefault(size = 10,sort ={"createDate"},direction = Sort.Direction.DESC) Pageable pageable,
                         BlogQuery bq, Model model){
         model.addAttribute("types", typeService.listType());
         model.addAttribute("page",blogService.listBlog(pageable,bq));
@@ -56,7 +56,7 @@ public class BlogController {
     }
 
     @PostMapping("blogs/search")
-    public String search(@PageableDefault(size = 10,sort ={"updateDate"},direction = Sort.Direction.DESC) Pageable pageable,
+    public String search(@PageableDefault(size = 10,sort ={"createDate"},direction = Sort.Direction.DESC) Pageable pageable,
                         BlogQuery bq, Model model){
         model.addAttribute("page",blogService.listBlog(pageable,bq));
         return "admin/blogs :: blogList";
@@ -103,19 +103,16 @@ public class BlogController {
             if(!file.isEmpty())
                 blog.setFirstPicture( fileService.saveFile(file));
             b = blogService.saveBlog(blog);
-
         }else{
             if(!file.isEmpty())
                 blog.setFirstPicture(fileService.saveFile(file,blogService.getBlog(blog.getId()).getFirstPicture()));
             b = blogService.updateBlog(blog.getId(),blog);
-
         }
         if (b == null){
             attributes.addFlashAttribute("message","操作失败");
         }else{
             attributes.addFlashAttribute("message","操作成功");
         }
-
         return REDIRECT_LIST;
     }
 

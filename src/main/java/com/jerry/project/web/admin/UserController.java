@@ -2,7 +2,6 @@ package com.jerry.project.web.admin;
 
 import com.jerry.project.service.FileService;
 import com.jerry.project.service.UserService;
-import com.jerry.project.vo.Blog;
 import com.jerry.project.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
