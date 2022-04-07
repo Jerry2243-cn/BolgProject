@@ -198,6 +198,7 @@ body {
     }
     .m-mobile-show {
         display: block !important;
+        transition: all 0.2s;
     }
     .m-padded-lr-responsive {
         padding-left: 0 !important;

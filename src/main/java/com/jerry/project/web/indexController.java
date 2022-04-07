@@ -1,9 +1,6 @@
 package com.jerry.project.web;
 
-import com.jerry.project.service.BlogService;
-import com.jerry.project.service.TagService;
-import com.jerry.project.service.TypeService;
-import com.jerry.project.service.UserService;
+import com.jerry.project.service.*;
 import com.jerry.project.vo.Blog;
 import com.jerry.project.vo.BlogQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,8 @@ public class indexController {
     private TypeService typeService;
     @Autowired
     private TagService tagService;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/")
     public String index(@PageableDefault(size = 8,sort = "createDate",direction = Sort.Direction.DESC)Pageable pageable,
@@ -39,6 +38,7 @@ public class indexController {
         tagService.setPublishedCount();
         BlogQuery blogQuery = new BlogQuery();
         blogQuery.setPublished(true);
+
         model.addAttribute("page",blogService.listBlog(pageable,blogQuery));
         model.addAttribute("types",typeService.listTypeTop(6));
         model.addAttribute("tags",tagService.ListTagTop(10));
@@ -60,9 +60,11 @@ public class indexController {
     @GetMapping("/blog/{id}")
     public String blog(@PathVariable Long id,Model model ){
         Blog blog = blogService.getAndConvert(id);
-        if(blog == null)
+        if(blog == null) {
             return "error/404";
+        }
         model.addAttribute("blog",blog);
+        model.addAttribute("comments",commentService.getCommentsByBlogId(id));
         return "blog";
     }
 

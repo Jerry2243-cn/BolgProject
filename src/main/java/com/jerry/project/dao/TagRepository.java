@@ -11,6 +11,9 @@ import java.util.List;
 
 public interface TagRepository extends JpaRepository<Tag,Long> {
 
+    @Query("select b from Blog b inner join b.tags t where t.id = :id")
+    List<Blog> hasBlogs(@Param("id") Long id);
+
     Tag findByName(String name);
 
     @Query("select t from Tag t")
@@ -19,6 +22,5 @@ public interface TagRepository extends JpaRepository<Tag,Long> {
     @Query("select b from Blog b where b.published = true ")
     List<Blog> findPublishedBlogs();
 
-    @Query("select b from Blog b inner join b.tags t where t.id = :id")
-    List<Blog> hasBlogs(@Param("id") Long id);
+
 }

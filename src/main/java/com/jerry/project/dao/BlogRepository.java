@@ -16,9 +16,9 @@ public interface BlogRepository extends JpaRepository<Blog,Long>, JpaSpecificati
     @Query("select count(b) from Blog b where b.published = true")
     long findByPublishedBlogsCount();
 
-    @Query("select function('date_format',b.updateDate,'%Y') as yaer from Blog b group by function('date_format',b.updateDate,'%Y') ")
+    @Query("select function('date_format',b.createDate,'%Y') as yaer from Blog b group by function('date_format',b.createDate,'%Y') ")
     List<String> findGroupYear();
 
-    @Query("select b from Blog b where function('date_format',b.updateDate,'%Y') = ?1 and b.published = true")
+    @Query("select b from Blog b where function('date_format',b.createDate,'%Y') = ?1 and b.published = true")
     List<Blog> findByYear(String year);
 }

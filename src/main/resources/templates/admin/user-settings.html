@@ -121,13 +121,15 @@
   });
 
   //消息提示关闭初始化
-  $('.message .close')
-          .on('click', function () {
-            $(this)
-                    .closest('.message')
-                    .transition('fade');
-          });
+  $('.message .close').on('click', function () {
+    $(this).closest('.message').transition('fade');
+  });
 
+  $(function(){
+    $('#adminLogo').click(function(){
+      window.location.href = "/admin";
+    })
+  });
 </script>
 </body>
 </html>

@@ -26,6 +26,8 @@ public class BlogServiceImpl implements BlogService{
 
     @Autowired
     private BlogRepository blogRepository;
+    @Autowired
+    private FileService fileService;
 
     @Override
     public Blog getBlog(Long id) {
@@ -175,6 +177,7 @@ public class BlogServiceImpl implements BlogService{
     @Transactional
     @Override
     public void deleteBlog(Long id) {
+        fileService.deleteFile(blogRepository.findById(id).get().getFirstPicture());
         blogRepository.deleteById(id);
     }
 

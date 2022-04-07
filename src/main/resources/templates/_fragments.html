@@ -25,9 +25,9 @@
       <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="clone outline icon"></i>标签</a>
       <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4} ? 'active'"><i class="save outline icon"></i>归档</a>
       <a href="#" th:href="@{/about}" class="m-item item m-mobile-hide " th:classappend="${n==5} ? 'active'"><i class="comment icon"></i>关于我</a>
-<!--      <a href="#" th:href="@{/admin}" class="m-item item m-mobile-hide" target="_blank" th:classappend="${n==6} ? 'active'"><i class="cogs icon"></i>后台</a>-->
+<!--      <a href="#" th:href="@{/admin}" class="m-item item m-mobile-hide"  th:classappend="${n==6} ? 'active'"><i class="cogs icon"></i>后台</a>-->
       <div id="search-div" class="right m-item item m-mobile-hide">
-        <form name="search" action="#" th:action="@{/search}" method="post" target="_blank">
+        <form name="search" action="#" th:action="@{/search}" method="post" >
           <div class="ui icon  input m-margin-tb-tiny">
             <input type="text" name="query" placeholder="搜索我的相关博客" th:value="${query}">
             <i onclick="document.forms['search'].submit()" class="search link icon"></i>
@@ -43,7 +43,7 @@
 
 
 <!--底部footer-->
-<footer th:fragment="footer" class="ui vertical inverted segment m-padded-tb-massive">
+<footer th:fragment="footer" class="ui vertical inverted segment m-padded-tb-big">
   <div class="ui center aligned container">
     <div class="ui inverted divided stackable grid ">
       <div class="three wide column">
@@ -59,7 +59,7 @@
         <h4 class="ui inverted header m-text-thin m-text-spaced " >最新博客</h4>
         <div id="newBlog-container">
           <div class="ui inverted link list" th:fragment="newBlogList">
-            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item m-text-thin" th:each="blog : ${newBlogs}" th:text="${blog.title}">用户故事（User Story）</a>
+            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}"  class="item m-text-thin" th:each="blog : ${newBlogs}" th:text="${blog.title}">用户故事（User Story）</a>
           </div>
         </div>
       </div>
@@ -68,7 +68,7 @@
         <div id="author-info">
         <div class="ui inverted link list" th:fragment="info">
           <a class="item m-text-thin" th:text="${userEmail}" >Email：2543748475@qq.com</a>
-          <p class="item m-text-thin" th:text="${userQQ}">QQ：2543748475</p>
+          <a class="item m-text-thin" th:text="${userQQ}">QQ：2543748475</a>
         </div>
         </div>
       </div>
@@ -77,13 +77,16 @@
         <div id="author-description">
           <div class="ui inverted link list">
         <p class="m-text-thin m-text-spaced m-opacity-mini">这是Jerry的个人博客、会分享关于编程、生活、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
-            <a href="#" th:href="@{/admin}">后台系统</a>
+            <a class="item m-text-thin"  href="#" th:href="@{/admin}">后台系统</a>
           </div>
         </div>
       </div>
     </div>
     <div class="ui inverted section divider"></div>
-    <p id="infos" class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2022 - Jerry   Designed by Jerry</p>
+    <div class="ui inverted link list">
+      <p id="infos" class="m-text-thin m-opacity-tiny">Copyright © 2022 - Jerry  Designed by Jerry</p>
+      <a class="item m-text" target="_blank" href="https://beian.miit.gov.cn/">浙ICP备2022010190号</a>
+    </div>
   </div>
 
 </footer>

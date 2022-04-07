@@ -43,10 +43,10 @@ public class FileServiceImpl implements FileService{
        return saveFile(file);
     }
 
-    private void deleteFile(String path){
+    @Override
+    public void deleteFile(String path){
         String[] s = path.split("/");
         String fileName = s[s.length-1];
-        System.out.println(fileName);
         File file = new File(mapPath.getPath()+fileName);
         file.delete();
     }

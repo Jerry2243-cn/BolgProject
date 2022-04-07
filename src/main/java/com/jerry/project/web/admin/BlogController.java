@@ -1,11 +1,8 @@
 package com.jerry.project.web.admin;
 
-import com.jerry.project.service.FileService;
-import com.jerry.project.service.TagService;
+import com.jerry.project.service.*;
 import com.jerry.project.vo.BlogQuery;
 import com.jerry.project.vo.User;
-import com.jerry.project.service.BlogService;
-import com.jerry.project.service.TypeService;
 import com.jerry.project.vo.Blog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,6 +43,8 @@ public class BlogController {
     private TagService tagService;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("blogs")
     public String blogs(@PageableDefault(size = 10,sort ={"createDate"},direction = Sort.Direction.DESC) Pageable pageable,
@@ -65,8 +64,17 @@ public class BlogController {
     @GetMapping("blogs/{id}/preview")
     public String preview(@PathVariable Long id,Model model){
         model.addAttribute("blog",blogService.getAndPreView(id));
-        return "blog";
+        model.addAttribute("comments",commentService.getCommentsByBlogId(id));
+        commentService.setSawByBlogId(id);
+        return "admin/blog";
     }
+
+    @GetMapping("blogs/{bId}/preview/{id}")
+    public String deleteComment(@PathVariable Long id,@PathVariable Long bId){
+        commentService.delete(id);
+        return "redirect:/admin/blogs/"+bId+"/preview";
+    }
+
 
     @GetMapping("/blogs/input")
     public String input(Model model){
@@ -100,12 +108,14 @@ public class BlogController {
         blog.setTags(tagService.ListTag(blog.getTagIds()));
         Blog b;
         if(blog.getId()==null){
-            if(!file.isEmpty())
-                blog.setFirstPicture( fileService.saveFile(file));
+            if(!file.isEmpty()) {
+                blog.setFirstPicture(fileService.saveFile(file));
+            }
             b = blogService.saveBlog(blog);
         }else{
-            if(!file.isEmpty())
+            if(!file.isEmpty()){
                 blog.setFirstPicture(fileService.saveFile(file,blogService.getBlog(blog.getId()).getFirstPicture()));
+            }
             b = blogService.updateBlog(blog.getId(),blog);
         }
         if (b == null){
@@ -118,6 +128,9 @@ public class BlogController {
 
     @GetMapping("/blogs/{id}/delete")
     public String delete(@PathVariable Long id,RedirectAttributes attributes) {
+        if(commentService.getCommentsByBlogId(id) != null){
+            commentService.deleteByBlogId(id);
+        }
         blogService.deleteBlog(id);
         attributes.addFlashAttribute("message", "删除成功");
         return REDIRECT_LIST;

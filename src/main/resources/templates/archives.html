@@ -50,7 +50,7 @@
       <th:block th:each="item : ${archiveMap}">
       <h3 class="ui center aligned header" th:text="${item.key}">2017</h3>
       <div class="ui fluid vertical menu">
-        <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog : ${item.value}">
+        <a href="#" th:href="@{/blog/{id}(id=${blog.id})}"  class="item" th:each="blog : ${item.value}">
           <span>
             <i class="mini brown circle icon"></i><span th:text="${blog.title}">关于刻意练习的清单</span>
             <div class="ui brown basic left pointing label m-padded-mini " th:text="${#dates.format(blog.createDate,'MMMdd')}">&nbsp9月03&nbsp</div>
@@ -58,21 +58,21 @@
           <div class="ui green basic left pointing label m-padded-mini " th:text="${blog.flag}">原创</div>
         </a>
         <!--/*-->
-        <a href="#" target="_blank" class="item">
+        <a href="#"  class="item">
           <span>
             <i class="mini brown circle icon"></i>关于刻意练习的清单
             <div class="ui brown basic left pointing label m-padded-mini "> 9月03</div>
           </span>
           <div class="ui green basic left pointing label m-padded-mini ">原创</div>
         </a>
-        <a href="#" target="_blank" class="item">
+        <a href="#"  class="item">
           <span>
             <i class="mini brown circle icon"></i>关于刻意练习的清单
             <div class="ui brown basic left pointing label m-padded-mini "> 9月03</div>
           </span>
           <div class="ui green basic left pointing label m-padded-mini ">原创</div>
         </a>
-        <a href="#" target="_blank" class="item">
+        <a href="#"  class="item">
           <span>
             <i class="mini brown circle icon"></i>关于刻意练习的清单
             <div class="ui brown basic left pointing label m-padded-mini "> 9月03</div>
@@ -103,7 +103,7 @@
           <h4 class="ui inverted header m-text-thin m-text-spaced " >最新博客</h4>
           <div id="newBlog-container">
             <div class="ui inverted link list" th:fragment="newBlogList">
-              <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item m-text-thin" th:each="blog : ${newBlogs}" th:text="${blog.title}">用户故事（User Story）</a>
+              <a href="#" th:href="@{/blog/{id}(id=${blog.id})}"  class="item m-text-thin" th:each="blog : ${newBlogs}" th:text="${blog.title}">用户故事（User Story）</a>
               <!--/*-->
               <a href="#" class="item m-text-thin">用户故事（User Story）</a>
               <a href="#" class="item m-text-thin">用户故事（User Story）</a>

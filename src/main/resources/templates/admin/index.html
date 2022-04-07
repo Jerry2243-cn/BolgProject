@@ -42,6 +42,10 @@
       <div class="ui success large  message">
         <h3>Hi！</h3>
         <p th:text="${session.user.nickname}+，欢迎登录"></p>
+        <idv th:each="newComment : ${newComments}">
+          <p th:text="${newComment}"></p>
+        </idv>
+
       </div>
 
       <img th:src="@{/images/bk.png}" alt="" class="ui rounded bordered fluid image">

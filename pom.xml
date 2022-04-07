@@ -31,8 +31,6 @@
     <description>Demo project for Spring Boot</description>
 
 
-
-
     <properties>
         <start-class>com.jerry.project.BlogProjectApplication</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -99,7 +97,6 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-
 
         <dependency>
             <groupId>mysql</groupId>

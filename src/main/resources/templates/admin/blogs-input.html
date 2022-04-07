@@ -132,6 +132,12 @@
             <label for="appreciation">赞赏</label>
           </div>
         </div>
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" id="allowComment" name="allowComment" th:checked="*{allowComment}" class="hidden">
+            <label for="allowComment">评论</label>
+          </div>
+        </div>
       </div>
 
       <div class="ui error message"></div>
@@ -164,6 +170,12 @@
 
 
 <script>
+
+  $(function(){
+    $('#adminLogo').click(function(){
+      window.location.href = "/admin";
+    })
+  });
 
   //初始化Markdown编辑器
   var contentEditor;

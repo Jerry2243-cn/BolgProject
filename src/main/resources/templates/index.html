@@ -46,7 +46,7 @@
                         <i class="bookmark icon"></i>最新推荐
                     </div>
                     <div class="ui segment" th:each="blog : ${recommendBlogs}">
-                        <a href="#" target="_blank" class="m-black m-text-thin" th:text="${blog.title}" th:href="@{/blog/{id}(id=${blog.id})}">用户故事（User Story）</a>
+                        <a href="#"  class="m-black m-text-thin" th:text="${blog.title}" th:href="@{/blog/{id}(id=${blog.id})}">用户故事（User Story）</a>
                     </div>
                 </div>
 
@@ -58,13 +58,13 @@
                                 <i class="tasks icon"></i>分类
                             </div>
                             <div class="right aligned column">
-                                <a href="#" th:href="@{/types/-1}" target="_blank" class="ui label">更多 <i class="angle double right icon"></i></a>
+                                <a href="#" th:href="@{/types/-1}" class="ui label">更多 <i class="angle double right icon"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="ui segment">
                         <div class="ui fluid vertical menu">
-                            <a href="#" th:href="@{/types/{id}(id=${type.id})}" target="_blank" class="item" th:each="type : ${types}" >
+                            <a href="#" th:href="@{/types/{id}(id=${type.id})}" class="item" th:each="type : ${types}" >
                                 <span th:text="${type.name}">学习日志</span>
                                 <div class="ui secondary left pointing label" th:text="${type.publishedCount}">13</div>
                             </a>
@@ -80,12 +80,12 @@
                                 <i class="clone outline icon"></i>标签
                             </div>
                             <div class="right aligned column">
-                                <a href="#" th:href="@{/types/-1}" target="_blank" class="ui label ">更多 <i class="angle double right icon"></i></a>
+                                <a href="#" th:href="@{/types/-1}"  class="ui label ">更多 <i class="angle double right icon"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="ui segment">
-                        <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" target="_blank" class="ui left pointing label m-margin-tb-tiny" th:each="tag : ${tags}" >
+                        <a href="#" th:href="@{/tags/{id}(id=${tag.id})}"  class="ui left pointing label m-margin-tb-tiny" th:each="tag : ${tags}" >
                             <span th:text="${tag.name}">方法论</span> <div class="detail" th:text="${tag.publishedCount}">23</div>
                         </a>
                     </div>
@@ -113,7 +113,7 @@
                     <div class="ui padded vertical segment m-padded-tb-large" th:each="blog : ${page.content}">
                         <div class="ui middle aligned mobile reversed stackable grid" >
                             <div class="eleven wide column">
-                                <h3 class="ui header" ><a href="#" target="_blank" th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}"  class="m-black" >你真的理解什么是财富自由吗？</a></h3>
+                                <h3 class="ui header" ><a href="#"  th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}"  class="m-black" >你真的理解什么是财富自由吗？</a></h3>
                                 <p class="m-text" th:text="|${blog.description}...|">正确做好任何一件事情的前提是清晰、正确的理解目标。而事实是，我们很多人很多时候根本没有对目标正确的定义，甚至根本从来就没有想过，只是大家都那么做而已…...</p>
                                 <div class="ui grid">
                                     <div class="eleven wide column">
@@ -131,12 +131,12 @@
                                         </div>
                                     </div>
                                     <div class="right aligned five wide column" >
-                                        <a href="#" th:href="@{/types/{id}(id=${blog.type.id})}" target="_blank" class="ui label" th:text="${blog.type.name}">认知升级</a>
+                                        <a href="#" th:href="@{/types/{id}(id=${blog.type.id})}"  class="ui label" th:text="${blog.type.name}">认知升级</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="five wide column">
-                                <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
+                                <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" >
                                     <img src="https://unsplash.it/800/450?image=1005" th:src="@{${blog.firstPicture}}" alt="" class="ui rounded image">
                                 </a>
                             </div>
@@ -180,7 +180,7 @@
                 <h4 class="ui inverted header m-text-thin m-text-spaced " >最新博客</h4>
                 <div id="newBlog-container">
                     <div class="ui inverted link list" th:fragment="newBlogList">
-                        <a href="#"target="_blank" class="item m-text-thin">用户故事（User Story）</a>
+                        <a href="#" class="item m-text-thin">用户故事（User Story）</a>
                         <!--/*-->
                         <a href="#" class="item m-text-thin"> 用户故事（User Story）</a>
                         <a href="#" class="item m-text-thin">用户故事（User Story）</a>

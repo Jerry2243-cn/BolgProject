@@ -29,12 +29,14 @@ public class Blog {
     private Date createDate;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
-
+    @OneToMany(mappedBy = "blog")
+    private List<Comment> comments = new ArrayList<>();
     @ManyToOne
     private Type type;
-
     @ManyToMany(cascade = {CascadeType.PERSIST})
     private List<Tag> tags = new ArrayList<>();
+
+    private boolean allowComment;
 
 
     @ManyToOne
@@ -47,6 +49,22 @@ public class Blog {
     private String description;
 
     public Blog() {
+    }
+
+    public boolean isAllowComment() {
+        return allowComment;
+    }
+
+    public void setAllowComment(boolean allowComment) {
+        this.allowComment = allowComment;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public Long getId() {
@@ -193,7 +211,6 @@ public class Blog {
         this.tagIds = tagsToIds(this.getTags());
     }
 
-    //1,2,3
     private String tagsToIds(List<Tag> tags) {
         if (!tags.isEmpty()) {
             StringBuffer ids = new StringBuffer();

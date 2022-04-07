@@ -7,4 +7,6 @@ public interface FileService {
     String saveFile(MultipartFile file);
 
     String saveFile(MultipartFile file, String oldFilePath);
+
+    void deleteFile(String path);
 }
