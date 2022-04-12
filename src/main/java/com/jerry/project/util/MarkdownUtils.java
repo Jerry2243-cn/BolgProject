@@ -34,11 +34,7 @@ public class MarkdownUtils {
         HtmlRenderer renderer = HtmlRenderer.builder()
                 .extensions(headingAnchorExtensions)
                 .extensions(tableExtension)
-                .attributeProviderFactory(new AttributeProviderFactory() {
-                    public AttributeProvider create(AttributeProviderContext context) {
-                        return new CustomAttributeProvider();
-                    }
-                })
+                .attributeProviderFactory(context -> new CustomAttributeProvider())
                 .build();
         return renderer.render(document);
     }

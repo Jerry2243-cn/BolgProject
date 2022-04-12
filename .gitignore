@@ -32,4 +32,5 @@ build/
 ### VS Code ###
 .vscode/
 /src/main/resources/application-prod.yml
+/src/main/resources/7562448_jerry2243.top.pfx
 /log/
