@@ -1,0 +1,39 @@
+spring:
+  thymeleaf:
+    mode: HTML
+    cache: false
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
+    check-template-location: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1/MyDB?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    username: root
+    password: 12345678
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show_sql: true
+  servlet:
+    multipart:
+      max-file-size: 3MB
+  devtools:
+    restart:
+      enabled: true
+
+logging:
+  level:
+    root: info
+    com.jerry: debug
+  file:
+    name: log/blog.log
+server:
+  port: 8080
+#  ssl:
+#    key-store: classpath:7555118_blog.jerry2243.top.pfx
+#    key-store-password: rcf6sHlc
+#    key-store-type: PKCS12
+map-path:
+  url: /uploadImages/
+  path: /Users/Jerry/file_server/images/
