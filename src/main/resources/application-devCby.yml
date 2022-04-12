@@ -10,7 +10,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1/MyDB?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
     username: root
-    password: 12345678
+    password: root
   jpa:
     hibernate:
       ddl-auto: update
@@ -36,4 +36,4 @@ server:
 #    key-store-type: PKCS12
 map-path:
   url: /uploadImages/
-  path: /Users/Jerry/file_server/images/
+  path: /D://Learn/image/
