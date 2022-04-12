@@ -76,12 +76,7 @@ public class TypeServiceImpl implements TypeService{
     @Override
     public void setPublishedCount() {
         for(Type t :typeRepository.findAll()){
-            int count = 0;
-            for(Blog b: typeRepository.findPublishedBlogs()){
-                if(b.getType().getId() == t.getId())
-                    count++;
-            }
-            t.setPublishedCount(count);
+            t.setPublishedCount(typeRepository.findPublishedBlogs(t.getId()));
             typeRepository.save(t);
         }
     }

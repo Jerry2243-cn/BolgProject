@@ -50,6 +50,7 @@
     <form id="blog-form" action="#" th:object="${blog}" th:action="@{/admin/blogs}" method="post" class="ui form" enctype="multipart/form-data">
       <input type="hidden" name="published" th:value="*{published}">
       <input type="hidden" name="id" th:value="*{id}">
+      <input type="hidden" name="firstPublish" th:value="*{firstPublish}">
       <div class="required field">
         <div class="ui left labeled input">
           <div class="ui selection compact black basic dropdown label">
@@ -144,8 +145,8 @@
 
       <div class="ui right aligned container">
         <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
-        <button type="button" id="save-btn" class="ui button">保存</button>
-        <button type="button" id="publish-btn" class="ui black button">发布</button>
+<!--        <button type="button" id="save-btn" class="ui button">保存</button>-->
+        <button type="button" id="save-btn" class="ui black button">确定</button>
       </div>
 
     </form>
@@ -197,17 +198,17 @@
   });
 
   $('#save-btn').click(function () {
-    $('[name="published"]').val(false);
+    // $('[name="published"]').val(false);
     $('[name = "firstPictrue"]').val("");
     $('#blog-form').submit();
   });
 
 
-  $('#publish-btn').click(function () {
-    $('[name="published"]').val(true);
-    $('[name = "firstPictrue"]').val("");
-    $('#blog-form').submit();
-  });
+  // $('#publish-btn').click(function () {
+  //   $('[name="published"]').val(true);
+  //   $('[name = "firstPictrue"]').val("");
+  //   $('#blog-form').submit();
+  // });
 
 
 

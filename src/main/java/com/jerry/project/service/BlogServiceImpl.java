@@ -10,10 +10,7 @@ import com.jerry.project.util.MyBeanUtils;
 import com.jerry.project.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +21,11 @@ import java.util.*;
 @Service
 public class BlogServiceImpl implements BlogService{
 
-    @Autowired
+    @Autowired(required = true)
     private BlogRepository blogRepository;
     @Autowired
     private FileService fileService;
+
 
     @Override
     public Blog getBlog(Long id) {
@@ -80,37 +78,27 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public Page<Blog> listBlog(Pageable pageable, BlogQuery blog) {
-
-        return blogRepository.findAll(new Specification<Blog>() {
-            @Override
-            public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (!"".equals(blog.getTitle()) && blog.getTitle() != null) {
-                    predicates.add(cb.like(root.<String>get("title"), "%" + blog.getTitle() + "%"));
-                }
-                if (blog.getTypeId() != null) {
-                    predicates.add(cb.equal(root.<Type>get("type").get("id"), blog.getTypeId()));
-                }
-                if(blog.getTagId()!=null){
-                    Join join = root.join("tags");
-                    predicates.add(cb.equal(join.get("id"),blog.getTagId()));
-                }
-                if (blog.isRecommend()) {
-                    predicates.add(cb.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
-                }
-                if(blog.isPublished()){
-                    predicates.add(cb.equal(root.<Boolean>get("published"), blog.isPublished()));
-                }
-                cq.where(predicates.toArray(new Predicate[predicates.size()]));
-                return null;
+        return  blogRepository.findAll((Specification<Blog>) (root, cq, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (!"".equals(blog.getTitle()) && blog.getTitle() != null) {
+                predicates.add(cb.like(root.<String>get("title"), "%" + blog.getTitle() + "%"));
             }
+            if (blog.getTypeId() != null) {
+                predicates.add(cb.equal(root.<Type>get("type").get("id"), blog.getTypeId()));
+            }
+            if(blog.getTagId()!=null){
+                Join join = root.join("tags");
+                predicates.add(cb.equal(join.get("id"),blog.getTagId()));
+            }
+            if (blog.isRecommend()) {
+                predicates.add(cb.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
+            }
+            if(blog.isPublished()){
+                predicates.add(cb.equal(root.<Boolean>get("published"), blog.isPublished()));
+            }
+            cq.where(predicates.toArray(new Predicate[predicates.size()]));
+            return null;
         }, pageable);
-
-    }
-
-    @Override
-    public Page<Blog> listBlog(Pageable pageable) {
-        return blogRepository.findAll(pageable);
     }
 
     @Override
@@ -125,7 +113,7 @@ public class BlogServiceImpl implements BlogService{
         List<String> years = blogRepository.findGroupYear();
         Map<String,List<Blog>> map = new HashMap<>();
         for(String year:years){
-            map.put(year,blogRepository.findByYear(year));
+            map.put(year, blogRepository.findByYear(year));
         }
         return map;
     }
@@ -134,8 +122,9 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public Blog saveBlog(Blog blog) {
         if(blog.getId() == null){
-            blog.setCreateDate(new Date());
-            blog.setUpdateDate(new Date());
+            Date date = new Date();
+            blog.setCreateDate(date);
+            blog.setUpdateDate(date);
             blog.setViews(0);
         }else{
             blog.setUpdateDate(new Date());
@@ -158,13 +147,17 @@ public class BlogServiceImpl implements BlogService{
 
 
     @Override
-    public Blog changePublishState(Long id) {
+    public void changePublishState(Long id) {
         Blog t =blogRepository.findById(id).get();
         if(t == null){
             throw new NotFoundException("The blog is not found");
         }
+        if(!t.isFirstPublish() && !t.isPublished()){
+            t.setCreateDate(new Date());
+            t.setFirstPublish(true);
+        }
         t.setPublished(t.isPublished()? false:true);
-        return blogRepository.save(t);
+        blogRepository.save(t);
     }
 
     @Override
@@ -178,6 +171,7 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public void deleteBlog(Long id) {
         fileService.deleteFile(blogRepository.findById(id).get().getFirstPicture());
+
         blogRepository.deleteById(id);
     }
 
@@ -185,5 +179,26 @@ public class BlogServiceImpl implements BlogService{
     public long blogCount() {
         return blogRepository.findByPublishedBlogsCount();
     }
+
+    @Override
+    public void changeCommentState(Long id) {
+        Blog t =blogRepository.findById(id).get();
+        if(t == null){
+            throw new NotFoundException("The blog is not found");
+        }
+        t.setAllowComment(t.isAllowComment() ? false:true);
+        blogRepository.save(t);
+    }
+
+    @Override
+    public void closeAllComments() {
+        List<Blog> blogs  = blogRepository.findAll();
+        for (Blog b: blogs
+             ) {
+            b.setAllowComment(false);
+        }
+        blogRepository.saveAll(blogs);
+    }
+
 
 }

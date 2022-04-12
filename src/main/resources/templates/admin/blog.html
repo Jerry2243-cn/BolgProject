@@ -47,7 +47,7 @@
                     <div class="content"><a href="#" class="header" th:text="${blog.user.nickname}"></a></div>
                 </div>
                 <div class="item">
-                    <i class="calendar icon"></i><span th:text="${#dates.format(blog.createDate,'yyyy-MM-dd HH:mm')}">2017-10-01</span>
+                    <i class="calendar icon"></i><span th:text="${#dates.format(blog.createDate,'yyyy年M月d日 HH:mm')}">2017-10-01</span>
                 </div>
                 <div class="item">
                     <i class="eye icon"></i> <span th:text="${blog.views}">2342</span>
@@ -474,28 +474,28 @@ h5,h6{font-size:1em;}
             </div>
         </div>
         <input type="hidden" name="blogId" th:value="${blog.id}">
-        <div  class="ui segment" th:if="${blog.allowComment}">
-            <div id="comment-area" th:fragment="commentList">
-                <Div class="m-padded">
+        <div  class="ui  padded segment" th:if="${blog.allowComment}">
+            <div id="comment-area" th:fragment="commentList" >
                 <h2 class="ui header">留言区</h2>
                 <div class="ui attached segment m-padded" th:each="comment : ${comments}">
                     <div class="ui horizontal link list">
                         <div class="item">
                             <span class="m-black m-text" th:text="${comment.username}"></span>
-                            <span class="m-text-thin ">来自IP:&nbsp&nbsp</span><span class="m-text-thin" th:text="${comment.ip}"></span>
+                            <span class=" m-text-thin">&nbsp&nbsp来自IP：</span><span class="m-text-thin" th:text="${comment.ip}"></span>
+                        </div>
+                        <br/>
+                        <div class="item">
+                            <p class="m-black m-text-br" th:text="${comment.content}"></p>
+                        </div>
+                        <br/>
+                        <div class="item">
+                            <samp class="m-text-thin" th:text="${#dates.format(comment.createTime,'yyyy年M月d日 HH:mm')}"></samp>
+                            <a th:href="@{/admin/blogs/{bId}/preview/{id}(bId=${comment.blog.id},id=${comment.id})}">删除</a>
                         </div>
                     </div>
-                    <div class="item">
-                        <span class="m-text-spaced" th:text="${comment.content}"></span>
-                    </div>
-                    <div class="item">
-                        <samp class="m-text" th:text="${#dates.format(comment.createTime,'yy-MM-dd HH:mm')}"></samp>
-                        <a th:href="@{/admin/blogs/{bId}/preview/{id}(bId=${comment.blog.id},id=${comment.id})}">删除</a>
-                    </div>
-
                 </div>
-                </Div>
             </div>
+
         </div>
     </div>
 </div>
@@ -591,6 +591,10 @@ h5,h6{font-size:1em;}
 
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on : 'hover'
     });
 
     $('#payButton').popup({

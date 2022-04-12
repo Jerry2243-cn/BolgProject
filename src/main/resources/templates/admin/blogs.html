@@ -101,13 +101,14 @@
           <td th:text="${blog.type.name}">认知升级</td>
           <td th:text="${blog.recommend} ? '是':'否'">是</td>
           <td th:text="${blog.published} ? '发布':'草稿'">草稿</td>
-          <td th:text="${#dates.format(blog.updateDate,'yyyy-MM-dd HH:mm:ss')}">2017-10-02 09:45</td>
+          <td th:text="${#dates.format(blog.updateDate,'yyyy年M月d日 HH:mm:ss')}">2017-10-02 09:45</td>
           <td th:text="${blog.views}">1</td>
           <td>
             <a href="#" th:href="@{/admin/blogs/{id}/preview(id=${blog.id})}"  th:text="${blog.published} ? '浏览':'预览'" class="ui mini teal basic button">预览</a>
             <a href="#" th:href="@{/admin/blogs/{id}/input(id=${blog.id})}" class="ui mini brown basic button">编辑</a>
             <a href="#" th:href="@{/admin/blogs/{id}/publish(id=${blog.id})}" th:text="${blog.published} ? '撤回':'发布'" class="ui mini blue basic button">发布</a>
-            <a href="#" th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}" class="ui mini red basic button">删除</a>
+            <a href="#" th:href="@{/admin/blogs/{id}/comment(id=${blog.id})}" th:text="${blog.allowComment} ? '关闭留言区':'开启留言区'" class="ui mini yellow basic button">开启留言区</a>
+            <a href="#" th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}" onclick="return confirm('确定删除?');" class="ui mini red basic button">删除</a>
           </td>
         </tr>
         </tbody>
@@ -119,6 +120,7 @@
               <a onclick="page(this)" th:attr="data-page=${page.number}+1" class=" item" th:unless="${page.last}">下一页</a>
             </div>
             <a href="#" th:href="@{/admin/blogs/input}" class="ui mini right floated grey basic button">新增</a>
+            <a href="#" th:href="@{/admin/blogs/closeAllComments}" class="ui mini right floated grey basic button">关闭所有留言区</a>
           </th>
 
         </tr>
@@ -149,7 +151,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
 <!--/*/</th:block>/*/-->
-<script>
+<script th:inline="javascript">
 
   $('.menu.toggle').click(function () {
     $('.m-item').toggleClass('m-mobile-hide');
@@ -179,6 +181,7 @@
     $("[name='page']").val($(obj).data("page"));
     loaddata();
   }
+
 
   $("#search-btn").click(function () {
     $("[name='page']").val(0);

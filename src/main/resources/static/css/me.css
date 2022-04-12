@@ -76,6 +76,14 @@ body {
 
 /*-------text -----*/
 
+.m-text-br {
+    width: auto;
+    word-break:break-all !important;
+    word-wrap:break-word !important;
+    /*white-space:pre-wrap !important;*/
+}
+
+
 .m-text {
     font-weight: 300 !important;
     letter-spacing: 1px !important;

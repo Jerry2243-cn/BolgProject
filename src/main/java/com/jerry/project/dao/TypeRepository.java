@@ -17,8 +17,8 @@ public interface TypeRepository extends JpaRepository <Type,Long> {
     @Query("select t from Type t ")
     List<Type> findTop(Pageable pageable);
 
-    @Query("select b from Blog b where b.published = true ")
-    List<Blog> findPublishedBlogs();
+    @Query("select count (b) from Blog b where b.published = true and b.type.id = :id")
+    int findPublishedBlogs(@Param("id") Long id);
 
     @Query("select b from Blog b where b.type.id = :id")
     List<Blog> hasBlogs(@Param("id") Long id);

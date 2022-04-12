@@ -24,30 +24,30 @@ public class MyWebAppConfigurer implements WebMvcConfigurer {
         registry.addResourceHandler(mapPath.getUrl()+"**").addResourceLocations("file://"+mapPath.getPath());
     }
 
-    @Bean
-    public ServletWebServerFactory servletWebServerFactory() {
-        TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory() {
-            @Override
-            protected void postProcessContext(Context context) {
-                SecurityConstraint securityConstraint = new SecurityConstraint();
-                securityConstraint.setUserConstraint("CONFIDENTIAL");
-                SecurityCollection securityCollection = new SecurityCollection();
-                securityCollection.addPattern("/*");
-                securityConstraint.addCollection(securityCollection);
-                context.addConstraint(securityConstraint);
-            }
-        };
-        factory.addAdditionalTomcatConnectors(redirectConnector());
-        return factory;
-    }
-
-    private Connector redirectConnector() {
-        Connector connector = new Connector(Http11NioProtocol.class.getName());
-        connector.setScheme("http");
-        connector.setPort(80);
-        connector.setSecure(false);
-        connector.setRedirectPort(443);
-        return connector;
-    }
+//    @Bean
+//    public ServletWebServerFactory servletWebServerFactory() {
+//        TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory() {
+//            @Override
+//            protected void postProcessContext(Context context) {
+//                SecurityConstraint securityConstraint = new SecurityConstraint();
+//                securityConstraint.setUserConstraint("CONFIDENTIAL");
+//                SecurityCollection securityCollection = new SecurityCollection();
+//                securityCollection.addPattern("/*");
+//                securityConstraint.addCollection(securityCollection);
+//                context.addConstraint(securityConstraint);
+//            }
+//        };
+//        factory.addAdditionalTomcatConnectors(redirectConnector());
+//        return factory;
+//    }
+//
+//    private Connector redirectConnector() {
+//        Connector connector = new Connector(Http11NioProtocol.class.getName());
+//        connector.setScheme("http");
+//        connector.setPort(80);
+//        connector.setSecure(false);
+//        connector.setRedirectPort(443);
+//        return connector;
+//    }
 
 }

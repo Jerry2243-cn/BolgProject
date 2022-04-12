@@ -12,11 +12,9 @@ public class Blog {
     @Id
     @GeneratedValue
     private Long id;
-
     private String title;
-
-    @Basic(fetch = FetchType.LAZY)
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     private String content;
     private String firstPicture;
     private String flag;
@@ -24,31 +22,36 @@ public class Blog {
     private boolean appreciation;
     private boolean shareStatement;
     private boolean published;
+    private boolean firstPublish;
     private boolean recommend;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
-    @OneToMany(mappedBy = "blog")
+    @OneToMany(mappedBy = "blog",fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Type type;
     @ManyToMany(cascade = {CascadeType.PERSIST})
     private List<Tag> tags = new ArrayList<>();
-
     private boolean allowComment;
-
-
+    private String description;
     @ManyToOne
     private User user;
-
-
     @Transient
     private String tagIds;
 
-    private String description;
+
 
     public Blog() {
+    }
+
+    public boolean isFirstPublish() {
+        return firstPublish;
+    }
+
+    public void setFirstPublish(boolean firstPublish) {
+        this.firstPublish = firstPublish;
     }
 
     public boolean isAllowComment() {
@@ -84,7 +87,7 @@ public class Blog {
     }
 
     public String getContent() {
-        return content;
+        return this.content;
     }
 
     public void setContent(String content) {
@@ -179,7 +182,6 @@ public class Blog {
         this.tags = tags;
     }
 
-
     public User getUser() {
         return user;
     }
@@ -187,9 +189,6 @@ public class Blog {
     public void setUser(User user) {
         this.user = user;
     }
-
-
-
 
     public String getTagIds() {
         return tagIds;
@@ -252,4 +251,5 @@ public class Blog {
                 ", description='" + description + '\'' +
                 '}';
     }
+
 }

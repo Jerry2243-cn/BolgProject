@@ -18,7 +18,7 @@ public interface BlogService {
 
     Page<Blog>  listBlog(Pageable pageable, BlogQuery blogQuery);
 
-    Page<Blog>  listBlog(Pageable pageable);
+//    Page<Blog>  listBlog(Pageable pageable);
 
     List<Blog> listRecommendBlogTop(Integer size);
 
@@ -28,11 +28,15 @@ public interface BlogService {
 
     Blog updateBlog(Long id, Blog blog);
 
-    Blog changePublishState(Long id);
+    void changePublishState(Long id);
 
     void addView(Long id);
 
     void deleteBlog(Long id);
 
     long blogCount();
+
+    void changeCommentState(Long id);
+
+    void closeAllComments();
 }

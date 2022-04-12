@@ -5,7 +5,6 @@ import com.jerry.project.vo.BlogQuery;
 import com.jerry.project.vo.User;
 import com.jerry.project.vo.Blog;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -16,15 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.multipart.*;
 
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
 @Controller
 @RequestMapping("/admin")
@@ -87,6 +77,22 @@ public class BlogController {
     @GetMapping("blogs/{id}/publish")
     public String changePublishState(@PathVariable Long id,RedirectAttributes attributes) {
         blogService.changePublishState(id);
+        typeService.setPublishedCount();
+        tagService.setPublishedCount();
+        attributes.addFlashAttribute("message", "操作成功");
+        return REDIRECT_LIST;
+    }
+
+    @GetMapping("blogs/{id}/comment")
+    public String changeCommentState(@PathVariable Long id,RedirectAttributes attributes) {
+        blogService.changeCommentState(id);
+        attributes.addFlashAttribute("message", "操作成功");
+        return REDIRECT_LIST;
+    }
+
+    @GetMapping("blogs/closeAllComments")
+    public String closeAllComments(RedirectAttributes attributes) {
+        blogService.closeAllComments();
         attributes.addFlashAttribute("message", "操作成功");
         return REDIRECT_LIST;
     }
@@ -95,6 +101,7 @@ public class BlogController {
     public String editInput(@PathVariable Long id,Model model){
         model.addAttribute("types", typeService.listType());
         model.addAttribute("tags", tagService.ListTag());
+//        model.addAttribute("content", blogContentService.getBlogContent(id).getContent());
         Blog blog = blogService.getBlog(id);
         blog.init();
         model.addAttribute("blog",blog);

@@ -87,13 +87,7 @@ public class TagServiceImpl implements TagService{
     @Override
     public void setPublishedCount() {
         for(Tag t :tagRepository.findAll()){
-            int count = 0;
-            for(Blog b: tagRepository.findPublishedBlogs()){
-                for(Tag tt : b.getTags())
-                    if(tt.getId() == t.getId())
-                        count++;
-            }
-            t.setPublishedCount(count);
+            t.setPublishedCount(tagRepository.findPublishedBlogsCount(t.getId()));
             tagRepository.save(t);
         }
     }
