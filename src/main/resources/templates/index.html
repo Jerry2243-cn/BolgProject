@@ -222,14 +222,6 @@
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hide');
     });
-    $(document).ready(function (){
-        jQuery(function() {
-            $('#blogNavbar').height($("#nav").height());
-            $('#nav-items').affix({
-                offset: { top: $('#nav-items').offset().top }
-            });
-        });
-    })
     window.addEventListener("scroll",()=>{undefined
 
         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
