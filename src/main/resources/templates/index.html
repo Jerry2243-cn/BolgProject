@@ -9,28 +9,37 @@
 </head>
 <body>
 
-<!--导航-->
-<nav th:replace="_fragments :: menu(1)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
+<div id="welcome" style="width: 100%;height: 100%;background-color: #00a8c6;">
+
+</div>
+
+<nav id="blogNavbar" class=" ui inverted attached segment m-padded-tb-mini m-shadow-small " >
+    <div id="nav-items">
         <div class="ui container">
             <div class="ui inverted secondary stackable menu">
-                <a class="ui yellow header item">Blog</a>
-                <a href="#" class=" m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
-                <a href="#" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
-                <div class="right m-item item m-mobile-hide">
-                    <div class="ui icon inverted transparent input m-margin-tb-tiny">
-                        <input type="text" placeholder="Search....">
-                        <i class="search link icon"></i>
-                    </div>
+                <h2 id="logo" class="ui white header item">Jerry's Blog</h2>
+                <a id="homePage" href="#" th:href="@{/}"  class="m-item item m-mobile-hide active"><i class="eject icon "></i>首页</a>
+                <a href="#" th:href="@{/types/-1}" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide"><i class="clone outline icon"></i>标签</a>
+                <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" ><i class="save outline icon"></i>归档</a>
+                <a href="#" th:href="@{/about}" class="m-item item m-mobile-hide "><i class="comment icon"></i>关于我</a>
+                <!--      <a href="#" th:href="@{/admin}" class="m-item item m-mobile-hide"  th:classappend="${n==6} ? 'active'"><i class="cogs icon"></i>后台</a>-->
+                <div id="search-div" class="right m-item item m-mobile-hide">
+                    <form name="search" action="#" th:action="@{/search}" method="post" >
+                        <div class="ui icon  input m-margin-tb-tiny">
+                            <input type="text" name="query" placeholder="搜索我的相关博客" th:value="${query}">
+                            <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <a id="mobile-show" class="ui menu toggle black icon button m-right-top m-mobile-show">
             <i class="sidebar icon"></i>
         </a>
-    </nav>
+    </div>
+
+</nav>
 
 <!--中间内容-->
 <div  class="m-container m-padded-tb-big">
@@ -38,7 +47,7 @@
         <div class="ui stackable grid">
 
             <!--右边的top-->
-            <div class="five wide column">
+            <div class="five wide column left-index">
 
                 <!--最新推荐-->
                 <div class="ui segments m-margin-top-large">
@@ -94,7 +103,7 @@
             </div>
 
 
-            <div class="eleven wide column">
+            <div class="eleven wide column right-index">
                 <!--header-->
                 <div class="ui top attached segment">
                     <div class="ui middle aligned two column grid">
@@ -213,6 +222,39 @@
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hide');
     });
+    $(document).ready(function (){
+        jQuery(function() {
+            $('#blogNavbar').height($("#nav").height());
+            $('#nav-items').affix({
+                offset: { top: $('#nav-items').offset().top }
+            });
+        });
+    })
+    window.addEventListener("scroll",()=>{undefined
+
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+        let offsetTop = document.querySelector('#blogNavbar').offsetTop;
+
+        if (scrollTop > offsetTop) {undefined
+
+            document.querySelector('#blogNavbar').style.position="fixed";
+
+            document.querySelector('#blogNavbar').style.top="0";
+
+            document.querySelector('#blogNavbar').style.height="60px";
+
+            // $("#welcome").remove();
+
+        } else {undefined
+
+            document.querySelector('#blogNavbar').style.position="";
+
+            document.querySelector('#blogNavbar').style.top = "";
+
+
+        }})
+
 </script>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.jerry.project.web;
 import com.jerry.project.service.*;
 import com.jerry.project.vo.Blog;
 import com.jerry.project.vo.BlogQuery;
+import com.jerry.project.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Pageable;
@@ -67,10 +68,12 @@ public class indexController {
 
     @GetMapping("/footer/info")
     public String getInfo(Model model) {
-        model.addAttribute("wechatQRCode", userService.getUser().getWeChatQRCode());
+        User user = userService.getUser();
+        model.addAttribute("wechatQRCode", user.getWeChatQRCode());
         model.addAttribute("newBlogs", blogService.listRecommendBlogTop(3));
-        model.addAttribute("userEmail","E-mail: "+userService.getUser().getEmail());
-        model.addAttribute("userQQ","QQ: "+userService.getUser().getQq());
+        model.addAttribute("userEmail","E-mail: " + user.getEmail());
+        model.addAttribute("userQQ","QQ: " + user.getQq());
+        model.addAttribute("description", user.getDescription());
         return "_fragments :: info";
     }
 

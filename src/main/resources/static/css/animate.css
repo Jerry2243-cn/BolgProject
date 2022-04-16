@@ -1577,3 +1577,19 @@
 .slideOutUp {
   animation-name: slideOutUp;
 }
+
+@keyframes showUp {
+  from{
+    top:30px;
+    opacity: 0;
+  }
+
+  to{
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.showUp {
+  animation-name:showUp
+}

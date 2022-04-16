@@ -54,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <div id ="image-area" class="ui attached segment">
+        <div id ="image-area" class="ui attached segment" th:if="${blog.firstPicture} != ''">
             <!--图片区域-->
             <img src="https://unsplash.it/800/450?image=1005" th:src="@{${blog.firstPicture}}" alt="" class="ui fluid rounded image">
         </div>
@@ -590,13 +590,6 @@ h5,h6{font-size:1em;}
 
 
 <script th:inline="javascript">
-
-    onload = function (){
-        var s = /*[[${blog.firstPicture}]]*/'not';
-        if(s.length == 0){
-            document.getElementById("image-area").remove();
-        }
-    }
 
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hide');

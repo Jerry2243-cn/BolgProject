@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
   <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
   <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animate.css}">
-  <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
   <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
   <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
 
@@ -18,28 +17,31 @@
 
 <!--导航-->
 <nav id="blogNavbar" th:fragment="menu(n)" class=" ui inverted attached segment m-padded-tb-mini m-shadow-small" >
-  <div class="ui container">
-    <div class="ui inverted secondary stackable menu">
-      <h2 id="logo" class="ui white header item">Jerry's Blog</h2>
-      <a id="homePage" href="#" th:href="@{/}"  class="m-item item m-mobile-hide " th:classappend="${n==1} ? 'active'"><i class="eject icon "></i>首页</a>
-      <a href="#" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="tasks icon"></i>分类</a>
-      <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="clone outline icon"></i>标签</a>
-      <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4} ? 'active'"><i class="save outline icon"></i>归档</a>
-      <a href="#" th:href="@{/about}" class="m-item item m-mobile-hide " th:classappend="${n==5} ? 'active'"><i class="comment icon"></i>关于我</a>
-<!--      <a href="#" th:href="@{/admin}" class="m-item item m-mobile-hide"  th:classappend="${n==6} ? 'active'"><i class="cogs icon"></i>后台</a>-->
-      <div id="search-div" class="right m-item item m-mobile-hide">
-        <form name="search" action="#" th:action="@{/search}" method="post" >
-          <div class="ui icon  input m-margin-tb-tiny">
-            <input type="text" name="query" placeholder="搜索我的相关博客" th:value="${query}">
-            <i onclick="document.forms['search'].submit()" class="search link icon"></i>
-          </div>
-        </form>
+  <div id="nav-items">
+    <div class="ui container">
+      <div class="ui inverted secondary stackable menu">
+        <h2 id="logo" class="ui white header item">Jerry's Blog</h2>
+        <a id="homePage" href="#" th:href="@{/}"  class="m-item item m-mobile-hide " th:classappend="${n==1} ? 'active'"><i class="eject icon "></i>首页</a>
+        <a href="#" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="tasks icon"></i>分类</a>
+        <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="clone outline icon"></i>标签</a>
+        <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4} ? 'active'"><i class="save outline icon"></i>归档</a>
+        <a href="#" th:href="@{/about}" class="m-item item m-mobile-hide " th:classappend="${n==5} ? 'active'"><i class="comment icon"></i>关于我</a>
+        <!--      <a href="#" th:href="@{/admin}" class="m-item item m-mobile-hide"  th:classappend="${n==6} ? 'active'"><i class="cogs icon"></i>后台</a>-->
+        <div id="search-div" class="right m-item item m-mobile-hide">
+          <form name="search" action="#" th:action="@{/search}" method="post" >
+            <div class="ui icon  input m-margin-tb-tiny">
+              <input type="text" name="query" placeholder="搜索我的相关博客" th:value="${query}">
+              <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
+    <a id="mobile-show" class="ui menu toggle black icon button m-right-top m-mobile-show">
+      <i class="sidebar icon"></i>
+    </a>
   </div>
-  <a id="mobile-show" class="ui menu toggle black icon button m-right-top m-mobile-show">
-    <i class="sidebar icon"></i>
-  </a>
+
 </nav>
 
 
@@ -77,7 +79,7 @@
         <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
         <div id="author-description">
           <div class="ui inverted link list">
-        <p class="m-text-thin m-text-spaced m-opacity-mini">这是Jerry的个人博客、会分享关于编程、生活、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
+        <p class="m-text-thin m-text-spaced m-opacity-mini" th:text="${description}">这是Jerry的个人博客、会分享关于编程、生活、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
             <a class="item m-text-thin"  href="#" th:href="@{/admin}">后台系统</a>
           </div>
         </div>
@@ -96,11 +98,31 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
-  <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+<!--  <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>-->
   <script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
   <script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
   <script src="../static/lib/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
   <script>
+    onload = function () {
+      // $("#blogNavbar").css({
+      //   'top':'0'
+      // });
+      // $("#nav-items").css({
+      //   'opacity':'1'
+      // })
+      $(".left-index").css({
+        'left':0,
+        'opacity':'1'
+      })
+      $(".right-index").css({
+        'right':0,
+        'opacity':'1'
+      })
+      $("#blog-content").css({
+        'top':0,
+        'opacity':'1'
+      })
+    }
       // $('#wechat-area').load(/*[[@{/footer/wechat}]]*/"/footer/wechat");
       // $('#newBlog-container').load(/*[[@{/footer/newBlogs}]]*/"/footer/newBlogs");
       $('#footer-info').load(/*[[@{/footer/info}]]*/"/footer/info");
