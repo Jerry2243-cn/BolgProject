@@ -26,7 +26,7 @@
 
     <groupId>com.jerry</groupId>
     <artifactId>project</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.1</version>
     <name>MyBlogProject</name>
     <description>Demo project for Spring Boot</description>
 
@@ -152,8 +152,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>10</source>
-                    <target>10</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>

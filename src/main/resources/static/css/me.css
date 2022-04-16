@@ -1,9 +1,83 @@
 
 body {
     background: url("../images/bg.png");
+    /*font-family: 'Source Sans Pro', Arial, Sans-serif;/*/
 }
+
+#goHome{
+    opacity: 0;
+    transition: all 1s;
+}
+
+#welcome-info{
+    opacity: 0;
+    transition: all 1s;
+}
+.text-left{text-align:left}
+.col-md-12{
+    width:100%;
+    float:left;
+    position:relative;
+    min-height:1px;
+    padding-right:15%;
+    padding-left:15%}
 #pm{
     margin-top: 60px;
+}
+
+#indexNavbar {
+    /*position:sticky;*/
+    /*top:0px;*/
+    height: 60px;
+    z-index:99;
+    transition: all 0.5s !important;
+}
+
+header {
+    /*background-image: url(../images/bg.png);*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center center;*/
+    /*background-size: cover;*/
+    background-color: #2d2d2d;
+}
+
+header h1 {
+    font-size: 40px;
+    letter-spacing: 2px;
+    margin: 0;
+    color: #fff ;
+}
+
+header .cd-headline b {
+    color: #FFFFFF;
+    font-weight: 300;
+    margin: 0px;
+}
+
+header .container {
+    display: table;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+}
+
+header .row {
+    width: auto;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.header-overlay {
+    align-items: center !important;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.45);
+    top: 0;
+    width: 100%;
+    left: 0;
+    height: 100%;
+}
+.header-img{
+    align-items: center !important;
 }
 
 #blog-content{
@@ -25,7 +99,7 @@ body {
 }
 
 #nav-items{
-    /*opacity: 0;*/
+    opacity: 0;
     transition: all 1s !important;
 }
 
@@ -42,12 +116,11 @@ body {
 }
 
 #blogNavbar {
-    /*position:fixed;*/
-    /*top:0px;*/
-    /*height    : 60px;*/
+    position:fixed;
+    top:-60px;
+    height: 60px;
     z-index:99;
-    /*transition: all 0.5s !important;*/
-
+    transition: all 0.5s !important;
 }
 
 .m-padded-mini {
@@ -178,6 +251,11 @@ body {
 .m-container-small-a {
     max-width: 80em !important;
     margin: auto !important;
+}
+
+.m-container-index {
+    max-width: 90em !important;
+    /*margin: auto !important;*/
 }
 
 
