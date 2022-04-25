@@ -8,6 +8,7 @@ import com.jerry.project.vo.Type;
 import com.jerry.project.util.MarkdownUtils;
 import com.jerry.project.util.MyBeanUtils;
 import com.jerry.project.vo.BlogQuery;
+import com.jerry.project.vo.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -21,7 +22,7 @@ import java.util.*;
 @Service
 public class BlogServiceImpl implements BlogService{
 
-    @Autowired(required = true)
+    @Autowired
     private BlogRepository blogRepository;
     @Autowired
     private FileService fileService;
@@ -83,9 +84,38 @@ public class BlogServiceImpl implements BlogService{
             if (!"".equals(blog.getTitle()) && blog.getTitle() != null) {
                 predicates.add(cb.like(root.<String>get("title"), "%" + blog.getTitle() + "%"));
             }
+            if (blog.getUserId() != null && blog.getUserId() != 1) {
+                predicates.add(cb.equal(root.<User>get("user").get("id"), blog.getUserId()));
+            }
             if (blog.getTypeId() != null) {
                 predicates.add(cb.equal(root.<Type>get("type").get("id"), blog.getTypeId()));
             }
+            if(blog.getTagId()!=null){
+                Join join = root.join("tags");
+                predicates.add(cb.equal(join.get("id"),blog.getTagId()));
+            }
+            if (blog.isRecommend()) {
+                predicates.add(cb.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
+            }
+            if(blog.isPublished()){
+                predicates.add(cb.equal(root.<Boolean>get("published"), blog.isPublished()));
+            }
+            cq.where(predicates.toArray(new Predicate[predicates.size()]));
+            return null;
+        }, pageable);
+    }
+
+    @Override
+    public Page<Blog> listBlogByUser(Pageable pageable, BlogQuery blog) {
+        return  blogRepository.findAll((Specification<Blog>) (root, cq, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (!"".equals(blog.getTitle()) && blog.getTitle() != null) {
+                predicates.add(cb.like(root.<String>get("title"), "%" + blog.getTitle() + "%"));
+            }
+            if (blog.getTypeId() != null) {
+                predicates.add(cb.equal(root.<Type>get("type").get("id"), blog.getTypeId()));
+            }
+
             if(blog.getTagId()!=null){
                 Join join = root.join("tags");
                 predicates.add(cb.equal(join.get("id"),blog.getTagId()));

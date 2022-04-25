@@ -1,5 +1,7 @@
 package com.jerry.project.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,8 +36,9 @@ public class User {
     private Date createTime;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
+    @JsonIgnore
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Blog> blogs = new ArrayList<>();
 
     public User() {

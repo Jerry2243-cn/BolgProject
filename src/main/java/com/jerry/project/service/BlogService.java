@@ -18,6 +18,8 @@ public interface BlogService {
 
     Page<Blog>  listBlog(Pageable pageable, BlogQuery blogQuery);
 
+    Page<Blog>  listBlogByUser(Pageable pageable, BlogQuery blogQuery);
+
 //    Page<Blog>  listBlog(Pageable pageable);
 
     List<Blog> listRecommendBlogTop(Integer size);

@@ -2,6 +2,7 @@ package com.jerry.project.web.admin;
 
 import com.jerry.project.vo.Type;
 import com.jerry.project.service.TypeService;
+import com.jerry.project.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -37,8 +39,15 @@ public class TypeController {
     }
 
     @GetMapping("/types/{id}/input")
-    public String editInput(@PathVariable Long id, Model model){
-        model.addAttribute("type",typeService.getType(id));
+    public String editInput(@PathVariable Long id, Model model,HttpSession session, RedirectAttributes attributes){
+        User user = (User) session.getAttribute("user");
+        if(user.getId() == 1){
+            model.addAttribute("type",typeService.getType(id));
+        }else{
+            attributes.addFlashAttribute("message","只有Jerry可以更改分类，如需更改，请联系Jerry或在其没有关联博客的情况下删除并重新创建");
+            return "redirect:/admin/types";
+        }
+
         return "admin/types-input";
     }
 
@@ -80,7 +89,7 @@ public class TypeController {
 
     @GetMapping("/types/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes attributes){
-        if(typeService.hasBlogs(id) == 0){
+        if(typeService.noBlogs(id)){
             typeService.delete(id);
             attributes.addFlashAttribute("message", "删除成功");
         }else{

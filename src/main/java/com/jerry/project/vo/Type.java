@@ -1,5 +1,7 @@
 package com.jerry.project.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -25,7 +27,8 @@ public class Type {
 
     private int publishedCount;
 
-    @OneToMany(mappedBy = "type")
+    @JsonIgnore
+    @OneToMany(mappedBy = "type",fetch = FetchType.LAZY)
     private List<Blog> blogs = new ArrayList<>();
 
     public Type() {

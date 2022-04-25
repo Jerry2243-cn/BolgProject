@@ -21,4 +21,5 @@ public interface BlogRepository extends JpaRepository<Blog,Long>, JpaSpecificati
 
     @Query("select b from Blog b where function('date_format',b.createDate,'%Y') = ?1 and b.published = true")
     List<Blog> findByYear(String year);
+
 }

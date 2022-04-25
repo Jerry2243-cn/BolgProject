@@ -38,7 +38,9 @@ public class BlogController {
 
     @GetMapping("blogs")
     public String blogs(@PageableDefault(size = 10,sort ={"createDate"},direction = Sort.Direction.DESC) Pageable pageable,
-                        BlogQuery bq, Model model){
+                        BlogQuery bq, Model model, HttpSession session){
+        User user = (User)session.getAttribute("user");
+        bq.setUserId(user.getId());
         model.addAttribute("types", typeService.listType());
         model.addAttribute("page",blogService.listBlog(pageable,bq));
         return LIST;
@@ -46,7 +48,9 @@ public class BlogController {
 
     @PostMapping("blogs/search")
     public String search(@PageableDefault(size = 10,sort ={"createDate"},direction = Sort.Direction.DESC) Pageable pageable,
-                        BlogQuery bq, Model model){
+                        BlogQuery bq, Model model, HttpSession session){
+        User user = (User)session.getAttribute("user");
+        bq.setUserId(user.getId());
         model.addAttribute("page",blogService.listBlog(pageable,bq));
         return "admin/blogs :: blogList";
     }
@@ -91,9 +95,14 @@ public class BlogController {
     }
 
     @GetMapping("blogs/closeAllComments")
-    public String closeAllComments(RedirectAttributes attributes) {
-        blogService.closeAllComments();
-        attributes.addFlashAttribute("message", "操作成功");
+    public String closeAllComments(RedirectAttributes attributes, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if(user.getId() == 1){
+            blogService.closeAllComments();
+            attributes.addFlashAttribute("message", "操作成功");
+        }else{
+            attributes.addFlashAttribute("message", "只有Jerry才能关闭所有留言区");
+        }
         return REDIRECT_LIST;
     }
 

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.HashMap;
+
 import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
 @Controller
@@ -42,6 +44,33 @@ public class indexController {
         model.addAttribute("tags",tagService.ListTagTop(10));
         model.addAttribute("recommendBlogs",blogService.listRecommendBlogTop(8));
         return "index";
+    }
+
+    @ResponseBody
+    @GetMapping("/json")
+    public HashMap<String,Object> indexJson(@PageableDefault(size = 8,sort = "createDate",direction = Sort.Direction.DESC)Pageable pageable){
+        BlogQuery blogQuery = new BlogQuery();
+        blogQuery.setPublished(true);
+        HashMap<String,Object> map = new HashMap<>();
+
+//        map.put("page",blogService.listBlog(pageable,blogQuery));
+        map.put("types",typeService.listTypeTop(6));
+        map.put("tags",tagService.ListTagTop(10));
+        map.put("recommendBlogs",blogService.listRecommendBlogTop(8));
+       return map;
+    }
+
+    @ResponseBody
+    @GetMapping("/blogJson/{id}")
+    public HashMap<String,Object> blogJson(@PathVariable Long id ){
+        HashMap<String,Object> map = new HashMap<>();
+        Blog blog = blogService.getAndConvert(id);
+        if(blog == null) {
+            return null;
+        }
+        map.put("blog",blog);
+        map.put("comments",commentService.getCommentsByBlogId(id));
+        return map;
     }
 
     @PostMapping("/search")

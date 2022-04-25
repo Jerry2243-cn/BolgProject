@@ -34,10 +34,15 @@
 
 <div  class="m-container m-padded-tb-big">
   <div class="ui container">
+    <div class="ui success message" th:if="${user.id} != 1">
+      <i class="close icon"></i>
+      <div class="header">提示：</div>
+      <p>用户名不可更改（除登录外其他任何地方都不会显示的），如需更改用户名请联系Jerry</p>
+    </div>
     <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
       <i class="close icon"></i>
       <div class="header">提示：</div>
-      <p th:text="${message}">恭喜，操作成功！</p>
+      <p th:text="${message}">操作成功！</p>
     </div>
     <form id="user-form" action="#" th:object="${user}" th:action="@{/admin/submit}" method="post" class="ui form" enctype="multipart/form-data">
       <input type="hidden" name="id" th:value="*{id}">
@@ -49,14 +54,14 @@
         </div>
       </div>
 
-      <div class="required field">
+      <div class="required field" th:if="${user.id} == 1">
         <div class="ui left labeled input">
           <label class="ui black basic label">E-mail</label>
           <input class="inputAble" type="text" name="email" placeholder="email" th:value="*{email}" >
         </div>
       </div>
 
-      <div class="required field">
+      <div class="required field" th:if="${user.id} == 1">
         <div class="ui left labeled input">
           <label class="ui black basic label">QQ</label>
           <input class="inputAble" type="text" name="qq" placeholder="qq" th:value="*{qq}"  >
@@ -68,7 +73,7 @@
           <input class="inputAble" type="text" name="password" placeholder="设置新的密码" th:value="*{password}">
         </div>
       </div>
-      <div class="required field">
+      <div class="required field" th:if="${user.id} == 1">
         <textarea class="inputAble" name="description" th:text="*{description}" placeholder="个人描述..." maxlength="200"></textarea>
       </div>
       <div class="required field">

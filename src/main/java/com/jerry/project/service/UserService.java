@@ -8,6 +8,8 @@ public interface UserService {
 
     User getUser();
 
+    User getUser(Long id);
+
     User save(User user);
 
 }

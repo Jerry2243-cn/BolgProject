@@ -48,8 +48,8 @@
 
 <!--底部footer-->
 <footer th:fragment="footer" class="ui vertical inverted segment m-padded-tb-big">
-  <div id="footer-info" class="ui center aligned container" th:fragment="info" >
-    <div class="ui inverted divided stackable grid" >
+  <div class="ui center aligned container"  >
+    <div id="footer-info"  class="ui inverted divided stackable grid" th:fragment="info">
       <div class="three wide column">
         <div id="wechat-area">
           <div class="ui inverted link list" >
@@ -88,7 +88,7 @@
     </div>
     <div class="ui inverted section divider"></div>
     <div class="ui inverted link list">
-      <p id="infos" class="m-text-thin m-opacity-tiny">Copyright © 2022 - Jerry  Designed by Jerry</p>
+      <p id="infos" class="m-text-thin m-opacity-tiny infos"></p>
       <a class="item m-text" target="_blank" href="https://beian.miit.gov.cn/">浙ICP备2022010190号</a>
     </div>
   </div>
@@ -105,25 +105,19 @@
   <script src="../static/lib/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
   <script>
     onload = function () {
-
       $("#blogNavbar").css({
         'top':'0'
       });
       $("#nav-items").css({
         'opacity':'1'
-      })
-
+      });
     }
-      // $('#wechat-area').load(/*[[@{/footer/wechat}]]*/"/footer/wechat");
-      // $('#newBlog-container').load(/*[[@{/footer/newBlogs}]]*/"/footer/newBlogs");
       $('#footer-info').load(/*[[@{/footer/info}]]*/"/footer/info");
-      $("#infos").text("Copyright © "+new Date().getFullYear()+" - Jerry All Rights Reserved.")
+    $(".infos").text("Copyright © "+new Date().getFullYear()+" Jerry. All rights reserved.");
       $(function(){
           $('#logo').click(function(){
             window.location.href = "/";
-          })
-      });
-      $(function(){
+          });
         $('#mobile-show').click(function (){
           if($('#blogNavbar').height() < '100'){
             $('#blogNavbar').height($('#blogNavbar').height()*6);

@@ -26,6 +26,6 @@ public interface TypeService {
 
     void setPublishedCount();
 
-    int hasBlogs(Long id);
+    boolean noBlogs(Long id);
 
 }

@@ -1,6 +1,6 @@
 
 body {
-    background: url("../images/bg.png");
+    background: rgba(0, 0, 0, 1) url("../images/bg.png");
     /*font-family: 'Source Sans Pro', Arial, Sans-serif;/*/
 }
 
@@ -255,7 +255,7 @@ header .row {
 
 .m-container-index {
     max-width: 90em !important;
-    /*margin: auto !important;*/
+    margin: auto !important;
 }
 
 

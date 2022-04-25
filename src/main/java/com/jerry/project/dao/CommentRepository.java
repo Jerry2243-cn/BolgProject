@@ -10,4 +10,6 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
     List<Comment> findByBlogId(Long id);
 
     List<Comment> findBySawFalse();
+
+    List<Comment> findBySawFalseAndBlog_UserId(Long id);
 }

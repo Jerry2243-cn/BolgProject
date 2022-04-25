@@ -82,7 +82,7 @@ public class TypeServiceImpl implements TypeService{
     }
 
     @Override
-    public int hasBlogs(Long id) {
-        return typeRepository.hasBlogs(id).size();
+    public boolean noBlogs(Long id) {
+        return typeRepository.hasBlogs(id).isEmpty();
     }
 }

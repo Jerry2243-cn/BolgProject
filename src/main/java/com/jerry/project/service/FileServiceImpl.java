@@ -1,7 +1,7 @@
 package com.jerry.project.service;
 
 import com.jerry.project.config.MapPath;
-import com.jerry.project.util.FilepathUtils;
+import com.jerry.project.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.stereotype.Service;
@@ -16,6 +16,8 @@ public class FileServiceImpl implements FileService{
 
     @Autowired
     private MapPath mapPath;
+    @Autowired
+    private UserService userService;
 
     @Override
     public String saveFile(MultipartFile file) {
@@ -42,9 +44,11 @@ public class FileServiceImpl implements FileService{
         deleteFile(oldFilePath);
        return saveFile(file);
     }
-
     @Override
     public void deleteFile(String path){
+        if("".equals(path) || path == null){
+            return;
+        }
         String[] s = path.split("/");
         String fileName = s[s.length-1];
         File file = new File(mapPath.getPath()+fileName);

@@ -12,7 +12,7 @@ public interface CommentService {
 
     void delete(Long id);
 
-    List<String> newComments();
+    List<String> newComments(Long id);
 
     void setSawByBlogId(Long id);
 

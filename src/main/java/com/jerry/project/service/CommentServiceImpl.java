@@ -37,9 +37,9 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public List<String> newComments() {
+    public List<String> newComments(Long id) {
         List<String> newCommentNotice = new ArrayList<>();
-        List<Comment> comments = commentRepository.findBySawFalse();
+        List<Comment> comments = id != 1 ? commentRepository.findBySawFalseAndBlog_UserId(id) : commentRepository.findBySawFalse();
         if(comments.size() == 0){
             return null;
         }

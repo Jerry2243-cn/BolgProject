@@ -1,5 +1,7 @@
 package com.jerry.project.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,10 +17,11 @@ public class Comment {
     private String username;
     private String ip;
     private boolean saw;
+   @JsonIgnore
     @ManyToOne
     private Blog blog;
 
-    public boolean isSaw() {
+    public boolean setSaw() {
         return saw;
     }
 

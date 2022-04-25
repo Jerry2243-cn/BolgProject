@@ -11,6 +11,16 @@ public class BlogQuery {
 
     private  boolean recommend;
 
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public Long getTagId() {
         return tagId;
     }

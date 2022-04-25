@@ -27,7 +27,8 @@ public class LoginController {
     @GetMapping
     public String loginPage(HttpSession session,Model model) {
         if(session.getAttribute("user") != null){
-            model.addAttribute("newComments",commentService.newComments());
+            User user = (User)session.getAttribute("user");
+            model.addAttribute("newComments",commentService.newComments(user.getId()));
             return  "admin/index";
         }
         return "admin/login";
@@ -44,7 +45,7 @@ public class LoginController {
         if (user != null) {
             user.setPassword(null);
             session.setAttribute("user",user);
-            model.addAttribute("newComments",commentService.newComments());
+            model.addAttribute("newComments",commentService.newComments(user.getId()));
             return "admin/index";
         } else {
             attributes.addFlashAttribute("message", "用户名和密码错误");

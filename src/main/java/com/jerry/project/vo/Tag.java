@@ -1,5 +1,7 @@
 package com.jerry.project.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,8 @@ public class Tag {
 
     private int publishedCount;
 
-    @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tags",fetch = FetchType.LAZY)
     private List<Blog> blogs = new ArrayList<>();
 
     public Tag() {

@@ -2,6 +2,7 @@ package com.jerry.project.web.admin;
 
 import com.jerry.project.service.TagService;
 import com.jerry.project.vo.Tag;
+import com.jerry.project.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -39,8 +40,14 @@ public class TagController {
     }
 
     @GetMapping("/tags/{id}/input")
-    public String editInput(@PathVariable Long id, Model model){
-        model.addAttribute("tag",tagService.getTag(id));
+    public String editInput(@PathVariable Long id, Model model,HttpSession session, RedirectAttributes attributes){
+        User user = (User) session.getAttribute("user");
+        if(user.getId() == 1){
+            model.addAttribute("tag",tagService.getTag(id));
+        }else{
+            attributes.addFlashAttribute("message","只有Jerry可以更改标签，如需更改，请联系Jerry或在其没有关联博客的情况下删除并重新创建");
+            return "redirect:/admin/tags";
+        }
         return "admin/tags-input";
     }
 

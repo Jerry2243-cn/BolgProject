@@ -1,5 +1,7 @@
 package com.jerry.project.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,16 +30,20 @@ public class Blog {
     private Date createDate;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
+
     @OneToMany(mappedBy = "blog",fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Type type;
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+
+    @ManyToMany(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
     private List<Tag> tags = new ArrayList<>();
     private boolean allowComment;
     private String description;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+   @JsonIgnore
     @Transient
     private String tagIds;
 

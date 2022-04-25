@@ -24,8 +24,9 @@ public class UserController {
     FileService fileService;
 
     @RequestMapping("/user")
-    public String getUser(Model model){
-        User user = userService.getUser();
+    public String getUser(Model model,HttpSession session){
+        User user0 = (User)session.getAttribute("user");
+        User user = userService.getUser(user0.getId());
         user.setPassword(null);
         model.addAttribute("user",user);
         return "admin/user-settings";
@@ -38,9 +39,9 @@ public class UserController {
                          RedirectAttributes attributes,
                          HttpSession session){
         if(!file.isEmpty())
-            user.setAvatar(fileService.saveFile(file,userService.getUser().getAvatar()));
+            user.setAvatar(fileService.saveFile(file,userService.getUser(user.getId()).getAvatar()));
         if(!file2.isEmpty())
-            user.setWeChatQRCode(fileService.saveFile(file2,userService.getUser().getWeChatQRCode()));
+            user.setWeChatQRCode(fileService.saveFile(file2,userService.getUser(user.getId()).getWeChatQRCode()));
         if(userService.save(user) == null){
             session.removeAttribute("user");
             return "admin/login";

@@ -43,7 +43,7 @@
     <div class="ui center aligned container">
       <div class="ui inverted section divider"></div>
       <div class="ui inverted link list">
-        <p id="infos" class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2022 - Jerry  Designed by Jerry</p>
+        <p id="infos" class="m-text-thin m-text-spaced m-opacity-tiny infos">Copyright © 2022 - Jerry  Designed by Jerry</p>
         <a class="item m-text" href="https://beian.miit.gov.cn/">浙ICP备2022010190号</a>
       </div>
     </div>
@@ -55,13 +55,10 @@
   <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
   <script src="../../static/lib/editormd/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
   <script>
-    $("#infos").text("Copyright © "+new Date().getFullYear()+" - Jerry All Rights Reserved.")
     $(function(){
       $('#adminLogo').click(function(){
         window.location.href = "/admin";
-      })
-    });
-    $(function(){
+      });
       $('#mobile-show').click(function (){
         if($('#blogNavbar').height() < '100'){
           $('#blogNavbar').height($('#blogNavbar').height()*6);
