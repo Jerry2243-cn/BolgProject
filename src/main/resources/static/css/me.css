@@ -1,7 +1,13 @@
 
 body {
     background: rgba(0, 0, 0, 1) url("../images/bg.png");
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
     /*font-family: 'Source Sans Pro', Arial, Sans-serif;/*/
+}
+html{
+    height: 100%;
 }
 
 #goHome{
@@ -9,6 +15,14 @@ body {
     transition: all 1s;
 }
 
+.bq{
+    /*display: flex;flex-direction: row;overflow-x: auto;*/
+    /*font-weight: bold;*/
+}
+.bq a{
+
+
+}
 #welcome-info{
     opacity: 0;
     transition: all 1s;
