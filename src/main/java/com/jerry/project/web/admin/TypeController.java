@@ -47,7 +47,6 @@ public class TypeController {
             attributes.addFlashAttribute("message","只有Jerry可以更改分类，如需更改，请联系Jerry或在其没有关联博客的情况下删除并重新创建");
             return "redirect:/admin/types";
         }
-
         return "admin/types-input";
     }
 

@@ -37,7 +37,9 @@
     <div class="ui success message" th:if="${user.id} != 1">
       <i class="close icon"></i>
       <div class="header">提示：</div>
-      <p>用户名不可更改（除登录外其他任何地方都不会显示的），如需更改用户名请联系Jerry</p>
+      <p>只将需要更改的信息更改即可，密码及上传图片不输入内容则默认保持原样</p>
+      <p>用户名与昵称默认一致，昵称可以更改，用户名不可更改（除登录外其他任何地方都不会显示的），如确需更改用户名请联系Jerry</p>
+      <p>头像与二维码建议上传（小于2mb），否则部分区域会显示空白（头像显示区域及文章底部转载声明处二维码区域）</p>
     </div>
     <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
       <i class="close icon"></i>
@@ -70,7 +72,13 @@
       <div class="required field">
         <div class="ui left labeled input">
           <label class="ui black basic label">密码</label>
-          <input class="inputAble" type="text" name="password" placeholder="设置新的密码" th:value="*{password}">
+          <input class="inputAble" type="password" name="password" placeholder="设置新的密码" th:value="*{password}">
+        </div>
+      </div>
+      <div class="required field">
+        <div class="ui left labeled input">
+          <label class="ui black basic label">确认密码</label>
+          <input class="inputAble" type="password" name="confirmPassword" placeholder="确认新的密码">
         </div>
       </div>
       <div class="required field" th:if="${user.id} == 1">
@@ -79,14 +87,14 @@
       <div class="required field">
         <div class="ui left labeled input">
           <label class="ui black basic label">头像</label>
-          <input class="inputAble" type="file" name="file" >
+          <input id="file" class="inputAble" type="file" accept="image/*" name="file" >
           <input type="hidden" name="avatar" th:value="*{avatar}" >
         </div>
       </div>
       <div class="required field">
         <div class="ui left labeled input">
           <label class="ui black basic label">微信二维码</label>
-          <input class="inputAble" type="file" name="file2" >
+          <input id="file2" class="inputAble" type="file" accept="image/*" name="file2" >
           <input type="hidden" name="WeChatQRCode" th:value="*{WeChatQRCode}" >
         </div>
       </div>
@@ -110,7 +118,6 @@
 
 <script>
 
-
   $('.menu.toggle').click(function () {
     $('.m-item').toggleClass('m-mobile-hide');
   });
@@ -119,9 +126,30 @@
     on : 'hover'
   });
 
+  function checkFile(name){
+    if(document.getElementById(name).files[0] != undefined){
+      if (document.getElementById(name).files[0].size >= 2*1024*1024){
+        alert("图片不得大于2mb");
+        return false;
+      }
+    }
+    return  true;
+  }
+
   $('#editing-btn').click(function () {
-    $('.inputAble').removeAttr("disabled");
-    $('#cancel-btn').removeAttr("hidden");
+    var s1 =  $('[name = "password"]').val();
+    var s2 =  $('[name = "confirmPassword"]').val();
+    if(s1.length < 6 && s1.length > 0){
+      alert("密码长度应大于等于6");
+      return;
+    }
+    if (!checkFile("file") || !checkFile("file2")){
+      return;
+    }
+    if(s1 != s2){
+      alert("两次密码输入不一致");
+      return;
+    }
     $('#user-form').submit();
   });
 

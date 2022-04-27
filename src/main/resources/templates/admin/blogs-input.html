@@ -105,7 +105,7 @@
       <div class="required field">
         <div class="ui left labeled input">
           <label class="ui black basic label">首图</label>
-          <input type="file" name="file">
+          <input id="file" type="file" accept="image/*" name="file">
           <input type="hidden" name="firstPicture" th:value="*{firstPicture}">
         </div>
       </div>
@@ -145,7 +145,6 @@
 
       <div class="ui right aligned container">
         <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
-<!--        <button type="button" id="save-btn" class="ui button">保存</button>-->
         <button type="button" id="save-btn" class="ui black button">确定</button>
       </div>
 
@@ -185,7 +184,6 @@
       width   : "100%",
       height  : 640,
       syncScrolling : "single",
-//        path    : "../static/lib/editormd/lib/"
       path    : "/lib/editormd/lib/"
     });
   });
@@ -197,18 +195,22 @@
     on : 'hover'
   });
 
+  function checkFile(name){
+    if(document.getElementById(name).files[0] != undefined){
+      if (document.getElementById(name).files[0].size >= 2*1024*1024){
+        alert("图片不得大于2mb");
+        return false;
+      }
+    }
+    return  true;
+  }
+
   $('#save-btn').click(function () {
-    // $('[name="published"]').val(false);
     $('[name = "firstPictrue"]').val("");
-    $('#blog-form').submit();
+    if(checkFile("file")){
+      $('#blog-form').submit();
+    }
   });
-
-
-  // $('#publish-btn').click(function () {
-  //   $('[name="published"]').val(true);
-  //   $('[name = "firstPictrue"]').val("");
-  //   $('#blog-form').submit();
-  // });
 
 
 
@@ -218,35 +220,28 @@
         identifier: 'title',
         rules: [{
           type : 'empty',
-          prompt: '标题：请输入博客标题'
+          prompt: '请输入博客标题'
         }]
       },
       content : {
         identifier: 'content',
         rules: [{
           type : 'empty',
-          prompt: '标题：请输入博客内容'
+          prompt: '请输入博客内容'
         }]
       },
       typeId : {
         identifier: 'type.id',
         rules: [{
           type : 'empty',
-          prompt: '标题：请输入博客分类'
+          prompt: '请输入博客分类'
         }]
       },
-      // firstPicture : {
-      //   identifier: 'firstPicture',
-      //   rules: [{
-      //     type : 'empty',
-      //     prompt: '标题：请输入博客首图'
-      //   }]
-      // },
       description : {
         identifier: 'description',
         rules: [{
           type : 'empty',
-          prompt: '标题：请输入博客描述'
+          prompt: '请输入博客描述'
         }]
       }
     }

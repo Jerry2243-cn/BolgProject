@@ -119,7 +119,6 @@ public class BlogController {
 
     @PostMapping("/blogs")
     public String post(@RequestParam(value = "file",required = false) MultipartFile file, Blog blog, RedirectAttributes attributes, HttpSession session){
-        blog.setUser((User)session.getAttribute("user"));
         blog.setType(typeService.getType(blog.getType().getId()));
         blog.setTags(tagService.ListTag(blog.getTagIds()));
         Blog b;
@@ -127,6 +126,7 @@ public class BlogController {
             if(!file.isEmpty()) {
                 blog.setFirstPicture(fileService.saveFile(file));
             }
+            blog.setUser((User)session.getAttribute("user"));
             b = blogService.saveBlog(blog);
         }else{
             if(!file.isEmpty()){

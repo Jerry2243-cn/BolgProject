@@ -86,6 +86,7 @@
         <tr>
           <th></th>
           <th>标题</th>
+          <th>作者</th>
           <th>分类</th>
           <th>推荐</th>
           <th>状态</th>
@@ -98,6 +99,7 @@
         <tr th:each="blog,iterStat : ${page.content}">
           <td th:text="${iterStat.count}">1</td>
           <td th:text="${blog.title}">刻意练习清单</td>
+          <td th:text="${blog.user.nickname}">刻意练习清单</td>
           <td th:text="${blog.type.name}">认知升级</td>
           <td th:text="${blog.recommend} ? '是':'否'">是</td>
           <td th:text="${blog.published} ? '发布':'草稿'">草稿</td>
@@ -114,7 +116,7 @@
         </tbody>
         <tfoot>
         <tr>
-          <th colspan="8">
+          <th colspan="9">
             <div class="ui mini pagination menu" th:if="${page.totalPages}>1" >
               <a onclick="page(this)" th:attr="data-page=${page.number}-1" class="item" th:unless="${page.first}">上一页</a>
               <a onclick="page(this)" th:attr="data-page=${page.number}+1" class=" item" th:unless="${page.last}">下一页</a>
