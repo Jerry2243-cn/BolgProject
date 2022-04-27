@@ -21,7 +21,7 @@ public class Comment {
     @ManyToOne
     private Blog blog;
 
-    public boolean setSaw() {
+    public boolean isSaw() {
         return saw;
     }
 

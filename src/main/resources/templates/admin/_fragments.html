@@ -16,7 +16,7 @@
   <div class="ui container">
     <div class="ui inverted secondary stackable menu">
       <h2 id="adminLogo" class="ui white header item">管理后台</h2>
-        <a href="#" th:href="@{/?page=0}" class=" m-item item m-mobile-hide" target="_blank" th:classappend="${n==5} ? 'active'"><i class="eject icon"></i>首页</a>
+        <a href="#" th:href="@{/?page=0}" class=" m-item item m-mobile-hide" target="_blank"><i class="eject icon"></i>首页</a>
       <a href="#" th:href="@{/admin/blogs}" class=" m-item item m-mobile-hide" th:classappend="${n==1} ? 'active'"><i class="user md icon"></i>博客</a>
       <a href="#" th:href="@{/admin/types}" class=" m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="tasks icon"></i>分类</a>
       <a href="#" th:href="@{/admin/tags}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="clone outline icon"></i>标签</a>
@@ -70,14 +70,13 @@
       });
     });
     onload = function () {
-
+      
       $("#blogNavbar").css({
         'top':'0'
       });
       $("#nav-items").css({
         'opacity':'1'
-      })
-
+      });
     }
 
   </script>

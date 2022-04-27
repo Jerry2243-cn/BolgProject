@@ -56,15 +56,34 @@ public class BlogController {
     }
 
     @GetMapping("blogs/{id}/preview")
-    public String preview(@PathVariable Long id,Model model){
+    public String preview(@PathVariable Long id,Model model,HttpSession session){
+        if (!check(session,blogService.getBlog(id).getUser().getId())){
+            return "error/404";
+        }
         model.addAttribute("blog",blogService.getAndPreView(id));
         model.addAttribute("comments",commentService.getCommentsByBlogId(id));
-        commentService.setSawByBlogId(id);
+        return "admin/blog";
+    }
+
+    @GetMapping("blogs/{id}/toComments")
+    public String toComments(@PathVariable Long id,Model model,HttpSession session){
+        if (!check(session,blogService.getBlog(id).getUser().getId())){
+            return "error/404";
+        }
+        model.addAttribute("blog",blogService.getAndPreView(id));
+        model.addAttribute("comments",commentService.getCommentsByBlogId(id));
+        User user = (User) session.getAttribute("user");
+        if(blogService.getBlog(id).getUser().getId().equals(user.getId())){
+            commentService.setSawByBlogId(id);
+        }
         return "admin/blog";
     }
 
     @GetMapping("blogs/{bId}/preview/{id}")
-    public String deleteComment(@PathVariable Long id,@PathVariable Long bId){
+    public String deleteComment(@PathVariable Long id,@PathVariable Long bId, HttpSession session){
+        if (!check(session,blogService.getBlog(id).getUser().getId())){
+            return "error/404";
+        }
         commentService.delete(id);
         return "redirect:/admin/blogs/"+bId+"/preview";
     }
@@ -107,10 +126,12 @@ public class BlogController {
     }
 
     @GetMapping("/blogs/{id}/input")
-    public String editInput(@PathVariable Long id,Model model){
+    public String editInput(@PathVariable Long id,Model model,HttpSession session){
+        if (!check(session,blogService.getBlog(id).getUser().getId())){
+            return "error/404";
+        }
         model.addAttribute("types", typeService.listType());
         model.addAttribute("tags", tagService.ListTag());
-//        model.addAttribute("content", blogContentService.getBlogContent(id).getContent());
         Blog blog = blogService.getBlog(id);
         blog.init();
         model.addAttribute("blog",blog);
@@ -150,6 +171,14 @@ public class BlogController {
         blogService.deleteBlog(id);
         attributes.addFlashAttribute("message", "删除成功");
         return REDIRECT_LIST;
+    }
+
+    private boolean check(HttpSession session, Long userId){
+        User user = (User) session.getAttribute("user");
+        if (user == null){
+            return false;
+        }
+        return user.getId() == 1 || user.getId().equals(userId);
     }
 
 }

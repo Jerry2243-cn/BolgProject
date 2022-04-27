@@ -474,7 +474,7 @@ h5,h6{font-size:1em;}
             </div>
         </div>
         <input type="hidden" name="blogId" th:value="${blog.id}">
-        <div  class="ui  padded segment" th:if="${blog.allowComment}">
+        <div id="comments" class="ui padded segment" th:if="${blog.allowComment}">
             <div id="comment-area" th:fragment="commentList" >
                 <h2 class="ui header">留言区</h2>
                 <div class="ui attached segment m-padded" th:each="comment : ${comments}">
@@ -575,7 +575,6 @@ h5,h6{font-size:1em;}
 
 
 <script th:inline="javascript">
-
 
     $(function(){
         $('#adminLogo').click(function(){
