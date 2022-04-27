@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments :: head(~{::title})">
+    <title>用户设置-Jerry's Blog</title>
+</head>
+<body>
+
+<!--导航-->
+<nav th:replace="admin/_fragments :: menu(5)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">管理后台</h2>
+            <a href="#" class="active m-item item m-mobile-hide"><i class="mini home icon"></i>博客</a>
+            <a href="#" class=" m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+            <div class="right m-item m-mobile-hide menu">
+                <div class="ui dropdown  item">
+                    <div class="text">
+                        <img class="ui avatar image" src="https://unsplash.it/100/100?image=1005">
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<div id="pm" class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" th:href="@{/admin/users/input}" class=" black active item">新增</a>
+            <a href="#" th:href="@{/admin/users}" class="item">列表</a>
+        </div>
+    </div>
+</div>
+
+<div  class="m-container m-padded-tb-big">
+    <div class="ui container">
+        <form id="user-form" action="#" th:object="${user}" th:action="@{/admin/saveUser}" method="post" class="ui form" enctype="multipart/form-data">
+            <input type="hidden" name="id" th:value="*{id}">
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <label class="ui black basic label" >用户名</label>
+                    <input class="inputAble" th:readonly="*{id} != null ? true : false" type="text" name="username" placeholder="用户名" th:value="*{username}">
+                </div>
+            </div>
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <label class="ui black basic label" >昵称</label>
+                    <input class="inputAble" type="text" name="nickname" placeholder="昵称" th:value="*{nickname}" >
+                </div>
+            </div>
+
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <label class="ui black basic label">密码</label>
+                    <input class="inputAble" type="password" name="password" placeholder="设置新的密码" th:value="*{password}">
+                </div>
+            </div>
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <label class="ui black basic label">确认密码</label>
+                    <input class="inputAble" type="password" name="confirmPassword" placeholder="确认新的密码">
+                </div>
+            </div>
+
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <label class="ui black basic label">头像</label>
+                    <input id="file" class="inputAble" type="file" accept="image/*" name="file" >
+                    <input type="hidden" name="avatar" th:value="*{avatar}" >
+                </div>
+            </div>
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <label class="ui black basic label">微信二维码</label>
+                    <input id="file2" class="inputAble"  type="file" accept="image/*" name="file2" >
+                    <input type="hidden" name="WeChatQRCode" th:value="*{WeChatQRCode}" >
+                </div>
+            </div>
+
+            <div class="ui error message"></div>
+            <!--/*/
+            <div class="ui negative message" th:if="${#fields.hasErrors('username')}"  >
+              <i class="close icon"></i>
+              <div class="header">验证失败</div>
+              <p th:errors="*{username}">提交信息不符合规则</p>
+            </div>
+             /*/-->
+
+            <div class="ui right aligned container">
+                <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
+                <button type="button" id="editing-btn" class="ui black button">确定</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<br>
+<br>
+<!--底部footer-->
+<footer th:replace="admin/_fragments :: footer"/>
+<!--/*/<th:block th:replace="_fragments :: script">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+
+<script>
+
+
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on : 'hover'
+    });
+
+    function checkFile(name){
+        if(document.getElementById(name).files[0] != undefined){
+            if (document.getElementById(name).files[0].size >= 2*1024*1024){
+                alert("图片不得大于2mb");
+                return false;
+            }
+        }
+        return  true;
+    }
+
+    $('#editing-btn').click(function () {
+        var s1 =  $('[name = "password"]').val();
+        var s2 =  $('[name = "confirmPassword"]').val();
+        if(s1.length < 6 && s1.length > 0){
+            alert("密码长度应大于等于6");
+            return;
+        }
+        if (!checkFile("file") || !checkFile("file2")){
+            return;
+        }
+        if(s1 != s2){
+            alert("两次密码输入不一致");
+            return;
+        }
+        $('#user-form').submit();
+    });
+
+    //消息提示关闭初始化
+    $('.message .close').on('click', function () {
+        $(this).closest('.message').transition('fade');
+    });
+
+    $(function(){
+        $('#adminLogo').click(function(){
+            window.location.href = "/admin";
+        })
+    });
+</script>
+</body>
+</html>
