@@ -5,4 +5,5 @@ body {
     background:url("../images/bg.png");
     display:flex;
     flex-direction:column;
+    height:100%;
 }
