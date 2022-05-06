@@ -1,6 +1,7 @@
 package com.jerry.project.web;
 
 import com.jerry.project.service.UserService;
+import com.jerry.project.util.MyTagUtils;
 import com.jerry.project.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ public class AboutController {
         user.setPassword(null);
         user.setUsername(null);
         model.addAttribute("user",user);
+        model.addAttribute("users",userService.ListUser());
+        model.addAttribute("personalTags", MyTagUtils.tagStringToArray(user.getPersonalTags() == null? "" : user.getPersonalTags()));
+        model.addAttribute("technoTags", MyTagUtils.tagStringToArray(user.getTechnoTags() == null? "" : user.getTechnoTags()));
         return "about";
     }
 }

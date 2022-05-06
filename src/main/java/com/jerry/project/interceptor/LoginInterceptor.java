@@ -13,7 +13,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             response.sendRedirect("/admin");
             return false;
         }
-
         return true;
     }
 }

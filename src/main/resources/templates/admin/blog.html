@@ -480,7 +480,7 @@ h5,h6{font-size:1em;}
                 <div class="ui attached segment m-padded" th:each="comment : ${comments}">
                     <div class="ui horizontal link list">
                         <div class="item">
-                            <span class="m-black m-text" th:text="${comment.username}"></span>
+                            <span class="m-black m-text" th:text="${comment.username} == Jerrytrue ? Jerry : ${comment.username}" th:classappend="${comment.username == 'Jerrytrue' } ? 'true-jerry'"></span>
                             <span class=" m-text-thin">&nbsp&nbsp来自IP：</span><span class="m-text-thin" th:text="${comment.ip}"></span>
                         </div>
                         <br/>
@@ -490,7 +490,7 @@ h5,h6{font-size:1em;}
                         <br/>
                         <div class="item">
                             <samp class="m-text-thin" th:text="${#dates.format(comment.createTime,'yyyy年M月d日 HH:mm')}"></samp>
-                            <a th:href="@{/admin/blogs/{bId}/preview/{id}(bId=${comment.blog.id},id=${comment.id})}">删除</a>
+                            <a th:href="@{/admin/blogs/{bId}/preview/{id}#comments(bId=${comment.blog.id},id=${comment.id})}">删除</a>
                         </div>
                     </div>
                 </div>

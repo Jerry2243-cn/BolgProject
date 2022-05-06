@@ -37,43 +37,6 @@ public class CommentServiceImpl implements CommentService{
         commentRepository.deleteById(id);
     }
 
-//    @Override
-//    public List<String> newComments(Long id) {
-//        List<String> notice = forNewComments(id);
-//        notice.replaceAll(s -> s.split("&id&")[0]);
-//        return notice;
-//    }
-//
-//    @Override
-//    public List<String> hasNewCommentsBlogId(Long id) {
-//        List<String> notice = forNewComments(id);
-//        notice.replaceAll(s -> s.split("&id&")[1]);
-//        return notice;
-//    }
-//
-//    public List<String> forNewComments(Long id) {
-//        List<String> newCommentNotice = new ArrayList<>();
-//        List<Comment> comments = id != 1 ? commentRepository.findBySawFalseAndBlog_UserId(id) : commentRepository.findBySawFalse();
-//        if(comments.size() == 0){
-//            return null;
-//        }
-//        comments.sort((o1, o2) -> (int) (o2.getBlog().getCreateDate().getTime() - o1.getBlog().getCreateDate().getTime()));
-//        String bolg = comments.get(0).getBlog().getTitle();
-//        Long blogId = comments.get(0).getBlog().getId();
-//        int count = 1;
-//        for(int i = 0; i < comments.size()-1;i++){
-//            if(comments.get(i).getBlog().getTitle().equals(comments.get(i+1).getBlog().getTitle())){
-//                count++;
-//            }else {
-//                newCommentNotice.add("博客：\"" + bolg + "\"有" + count + "条新留言"+"&id&"+blogId);
-//                bolg = comments.get(i + 1).getBlog().getTitle();
-//                count = 1;
-//            }
-//        }
-//        newCommentNotice.add("博客：\"" + bolg + "\"有" + count + "条新留言"+" "+blogId);
-//        return newCommentNotice;
-//    }
-
     public List<NewComment> newComments(Long id) {
         List<NewComment> newCommentNotice = new ArrayList<>();
         List<Comment> comments = id != 1 ? commentRepository.findBySawFalseAndBlog_UserId(id) : commentRepository.findBySawFalse();

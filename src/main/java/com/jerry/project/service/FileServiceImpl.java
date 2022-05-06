@@ -16,9 +16,6 @@ public class FileServiceImpl implements FileService{
 
     @Autowired
     private MapPath mapPath;
-    @Autowired
-    private UserService userService;
-
     @Override
     public String saveFile(MultipartFile file) {
         String dirPath = mapPath.getPath();

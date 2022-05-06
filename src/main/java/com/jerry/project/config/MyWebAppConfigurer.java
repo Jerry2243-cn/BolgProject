@@ -1,5 +1,6 @@
 package com.jerry.project.config;
 
+import com.jerry.project.interceptor.LoginInterceptor;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.Http11NioProtocol;
@@ -10,6 +11,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -24,30 +26,14 @@ public class MyWebAppConfigurer implements WebMvcConfigurer {
         registry.addResourceHandler(mapPath.getUrl()+"**").addResourceLocations("file://"+mapPath.getPath());
     }
 
-//    @Bean
-//    public ServletWebServerFactory servletWebServerFactory() {
-//        TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory() {
-//            @Override
-//            protected void postProcessContext(Context context) {
-//                SecurityConstraint securityConstraint = new SecurityConstraint();
-//                securityConstraint.setUserConstraint("CONFIDENTIAL");
-//                SecurityCollection securityCollection = new SecurityCollection();
-//                securityCollection.addPattern("/*");
-//                securityConstraint.addCollection(securityCollection);
-//                context.addConstraint(securityConstraint);
-//            }
-//        };
-//        factory.addAdditionalTomcatConnectors(redirectConnector());
-//        return factory;
-//    }
-//
-//    private Connector redirectConnector() {
-//        Connector connector = new Connector(Http11NioProtocol.class.getName());
-//        connector.setScheme("http");
-//        connector.setPort(80);
-//        connector.setSecure(false);
-//        connector.setRedirectPort(443);
-//        return connector;
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns("/admin/*")
+                .addPathPatterns("/admin/*/*")
+                .addPathPatterns("/admin/*/*/*")
+                .excludePathPatterns("/admin")
+                .excludePathPatterns("/admin/login");
+    }
 
 }

@@ -52,8 +52,6 @@ public class indexController {
         BlogQuery blogQuery = new BlogQuery();
         blogQuery.setPublished(true);
         HashMap<String,Object> map = new HashMap<>();
-
-//        map.put("page",blogService.listBlog(pageable,blogQuery));
         map.put("types",typeService.listTypeTop(6));
         map.put("tags",tagService.ListTagTop(10));
         map.put("recommendBlogs",blogService.listRecommendBlogTop(8));
@@ -102,7 +100,6 @@ public class indexController {
         model.addAttribute("newBlogs", blogService.listRecommendBlogTop(3));
         model.addAttribute("userEmail","E-mail: " + user.getEmail());
         model.addAttribute("userQQ","QQ: " + user.getQq());
-        model.addAttribute("description", user.getDescription());
         return "_fragments :: info";
     }
 

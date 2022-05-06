@@ -284,7 +284,7 @@ header .row {
 
 /*-----color-----*/
 .m-black {
-    color: #333 !important;
+    color: #333 ;
 }
 .m-teal {
     color: #000000 !important;
@@ -314,4 +314,8 @@ header .row {
     .m-mobile-wide {
         width: 100% !important;
     }
+}
+
+.true-jerry{
+    color: red !important;
 }

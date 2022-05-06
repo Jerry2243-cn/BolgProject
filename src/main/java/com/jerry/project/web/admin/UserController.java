@@ -67,15 +67,6 @@ public class UserController {
         return "admin/user-settings";
     }
 
-//    @PostMapping("/saveUser/{id}")
-//    public String updateUser(@RequestParam(value = "file", required = false) MultipartFile file,
-//                           @RequestParam(value = "file2", required = false) MultipartFile file2,
-//                           User user,
-//                           RedirectAttributes attributes,
-//                           HttpSession session) {
-//        return saveUser()
-//    }
-
     @PostMapping("/saveUser")
     public String saveUser(@RequestParam(value = "file", required = false) MultipartFile file,
                            @RequestParam(value = "file2", required = false) MultipartFile file2,
@@ -93,10 +84,17 @@ public class UserController {
         if (result.hasErrors()){
             return "admin/users-input";
         }
-        if(!file.isEmpty())
-            user.setAvatar(fileService.saveFile(file,userService.getUser(user.getId()).getAvatar()));
-        if(!file2.isEmpty())
-            user.setWeChatQRCode(fileService.saveFile(file2,userService.getUser(user.getId()).getWeChatQRCode()));
+        if(user.getId() != null){
+            if(!file.isEmpty())
+                user.setAvatar(fileService.saveFile(file,userService.getUser(user.getId()).getAvatar()));
+            if(!file2.isEmpty())
+                user.setWeChatQRCode(fileService.saveFile(file2,userService.getUser(user.getId()).getWeChatQRCode()));
+        }else{
+            if(!file.isEmpty())
+                user.setAvatar(fileService.saveFile(file));
+            if(!file2.isEmpty())
+                user.setWeChatQRCode(fileService.saveFile(file2));
+        }
         userService.save(user);
         attributes.addFlashAttribute("message","操作成功");
         return "redirect:/admin/users";

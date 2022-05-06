@@ -81,7 +81,7 @@ public class BlogController {
 
     @GetMapping("blogs/{bId}/preview/{id}")
     public String deleteComment(@PathVariable Long id,@PathVariable Long bId, HttpSession session){
-        if (!check(session,blogService.getBlog(id).getUser().getId())){
+        if (!check(session,blogService.getBlog(bId).getUser().getId())){
             return "error/404";
         }
         commentService.delete(id);

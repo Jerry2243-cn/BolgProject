@@ -23,14 +23,11 @@ public class User {
     private String description;
     private String WeChatQRCode;
 
-    public String getQq() {
-        return qq;
-    }
+    private String personalTags;
 
-    public void setQq(String qq) {
-        this.qq = qq;
-    }
+    private String technoTags;
 
+    private String gitHub;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
@@ -44,6 +41,37 @@ public class User {
     public User() {
     }
 
+    public String getGitHub() {
+        return gitHub;
+    }
+
+    public void setGitHub(String gitHub) {
+        this.gitHub = gitHub;
+    }
+
+    public String getPersonalTags() {
+        return personalTags;
+    }
+
+    public void setPersonalTags(String personalTags) {
+        this.personalTags = personalTags;
+    }
+
+    public String getTechnoTags() {
+        return technoTags;
+    }
+
+    public void setTechnoTags(String technoTags) {
+        this.technoTags = technoTags;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
     public String getWeChatQRCode() {
         return WeChatQRCode;
     }

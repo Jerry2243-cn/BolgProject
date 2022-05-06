@@ -43,6 +43,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>1.21</version>
+        </dependency>
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
@@ -133,6 +139,7 @@
                 <!--这里写上main方法所在类的路径-->
                 <configuration>
                     <mainClass>com.jerry.project.BlogProjectApplication</mainClass>
+                    <fork>true</fork>
                 </configuration>
                 <executions>
                     <execution>

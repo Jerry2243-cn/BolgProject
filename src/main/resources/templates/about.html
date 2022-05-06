@@ -47,33 +47,36 @@
             <div class="ui header">关于我</div>
           </div>
           <div class="ui attached segment">
-            <p class="m-text" th:text="${user.description}">一个学生开发者，折腾在 0 和 1 世界的人；一个终身学习者，誓将学习无限循环. 希望结识可以共同成长的小伙伴.</p>
+            <p class="m-text" th:text="${user.description}"></p>
           </div>
           <div class="ui attached segment">
-            <div class="ui secondary basic left pointing label">编程</div>
-            <div class="ui secondary basic left pointing label">果粉</div>
-            <div class="ui secondary basic left pointing label">数码</div>
-            <div class="ui secondary basic left pointing label">K歌</div>
+            <div class="ui secondary basic left pointing label" th:each="tag : ${personalTags}" th:text="${tag}">编程</div>
           </div>
           <div class="ui attached segment">
-            <div class="ui basic left pointing label m-margin-tb-tiny">Java</div>
-            <div class="ui basic left pointing label m-margin-tb-tiny">JavaScript</div>
-            <div class="ui basic left pointing label m-margin-tb-tiny">Swift</div>
-            <div class="ui basic left pointing label m-margin-tb-tiny">SwiftUI</div>
-            <div class="ui basic left pointing label m-margin-tb-tiny">SpringBoot</div>
-            <div class="ui basic left pointing label m-margin-tb-tiny">MySql</div>
+            <div class="ui basic left pointing label m-margin-tb-tiny" th:each="tag : ${technoTags}" th:text="${tag}">Java</div>
             <div class="ui basic left pointing label m-margin-tb-tiny">...</div>
           </div>
           <div class="ui bottom attached segment">
-            <a href="#" class="ui circular icon button"><i class="github icon"></i></a>
+            <a href="#" class="ui circular icon button" target="_blank" th:href="@{${user.gitHub}}"><i class="github icon"></i></a>
             <a href="#" class="ui wechat circular icon button"><i class="weixin icon"></i></a>
             <a href="#" class="ui qq circular icon button" th:data-content="${user.qq}" data-position="bottom center"><i class="qq icon"></i></a>
           </div>
-
           <div class="ui wechat-qr flowing popup transition hidden">
             <img src="../static/images/wechat.jpg" th:src="${user.WeChatQRCode}" alt="" class="ui rounded image" style="width: 110px">
           </div>
+
+          <div class="ui top attached segment">
+            <div class="ui header">还有我的朋友们</div>
           </div>
+            <div class="ui attached segment" th:each="user : ${users}">
+              <img th:src="@{${user.avatar}}" class="ui avatar image">&nbsp&nbsp&nbsp
+              <spanp th:text="${user.nickname}"></spanp>
+            </div>
+
+
+
+        </div>
+
       </div>
 
     </div>

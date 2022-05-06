@@ -115,7 +115,6 @@ public class BlogServiceImpl implements BlogService{
             if (blog.getTypeId() != null) {
                 predicates.add(cb.equal(root.<Type>get("type").get("id"), blog.getTypeId()));
             }
-
             if(blog.getTagId()!=null){
                 Join join = root.join("tags");
                 predicates.add(cb.equal(join.get("id"),blog.getTagId()));

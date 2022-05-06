@@ -50,9 +50,11 @@
     <div class="ui success message" th:if="${blog.id} == null">
       <i class="close icon"></i>
       <div class="header">提示：</div>
-      <p>建议使用Typora编辑完成后粘贴到content中，点击【确定】保存博客，博客发表状态不改变（初次保存为"草稿"状态），发布与否需在列表中操作</p>
-      <p>发表前建议点击列表中【预览】检查排版是否有问题，有问题回到编辑处微调content</p>
-      <p>发表时间（访客界面展示）以首次点击列表中【发布】为准，后续对博客的操作仅会改变列表中展示的更新时间</p>
+      <span>建议使用Typora编辑完成后粘贴到content中，markdown的图片是引用链接，这里是发送http请求来引用，比较麻烦(Typora编辑markdown有传入图片自动上传图床功能，并在markdown里自动转为图片引用)</span><br/>
+      <span>点击【确定】保存博客，博客发表状态不改变（初次保存为"草稿"状态），发布与否需在列表中操作</span><br/>
+      <span>发表前建议点击列表中【预览】检查排版是否有问题，有问题回到编辑处微调content</span><br/>
+      <span>原创内强烈容建议勾选【转载声明】声明版权信息，勾选【推荐】会让博客展示在更多地方哦（推荐列表top10及底部footer top3）</span><br/>
+      <span>发表时间（访客界面展示）以首次点击列表中【发布】为准，后续对博客的操作仅会改变列表中展示的更新时间</span>
     </div>
     <form id="blog-form" action="#" th:object="${blog}" th:action="@{/admin/blogs}" method="post" class="ui form" enctype="multipart/form-data">
       <input type="hidden" name="published" th:value="*{published}">

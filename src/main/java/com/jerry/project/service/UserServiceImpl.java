@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -24,6 +25,19 @@ public class UserServiceImpl implements UserService{
     @Override
     public Page<User> listUser(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<User> ListUser() {
+        List<User> list = userRepository.findAll();
+        list.remove(0);
+        for (int i = 0; i < list.size(); i++) {
+            User user = list.get(i);
+            user.setUsername(null);
+            user.setPassword(null);
+            list.set(i,user);
+        }
+        return list;
     }
 
     @Override

@@ -82,7 +82,25 @@
         </div>
       </div>
       <div class="required field" th:if="${user.id} == 1">
+        <div class="ui left labeled input">
+          <label class="ui black basic label">个性标签</label>
+          <input class="inputAble" type="text" name="personalTags" placeholder="标签之间以'/'隔开" th:value="*{personalTags}"  >
+        </div>
+      </div>
+      <div class="required field" th:if="${user.id} == 1">
+        <div class="ui left labeled input">
+          <label class="ui black basic label">技术标签</label>
+          <input class="inputAble" type="text" name="technoTags" placeholder="标签之间以'/'隔开" th:value="*{technoTags}"  >
+        </div>
+      </div>
+      <div class="required field" th:if="${user.id} == 1">
         <textarea class="inputAble" name="description" th:text="*{description}" placeholder="个人描述..." maxlength="200"></textarea>
+      </div>
+      <div class="required field" th:if="${user.id} == 1">
+        <div class="ui left labeled input">
+          <label class="ui black basic label">GitHub</label>
+          <input class="inputAble" type="text" name="gitHub" placeholder="GitHub链接" th:value="*{gitHub}"  >
+        </div>
       </div>
       <div class="required field">
         <div class="ui left labeled input">
