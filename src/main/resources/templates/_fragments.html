@@ -5,7 +5,7 @@
   <meta name="baidu-site-verification" content="code-dDwdqaOIwP" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:replace="${title}">博客详情</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+  <link rel="stylesheet" href="../static/jsdelivr/semantic.min.css" th:href="@{/jsdelivr/semantic.min.css}">
   <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
   <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animate.css}">
   <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animated-text.css}">
@@ -22,12 +22,11 @@
     <div class="ui container">
       <div class="ui inverted secondary stackable menu">
         <h2 id="logo" class="ui white header item">Jerry's Blog</h2>
-        <a id="homePage" href="#" th:href="@{/?page=0}"  class="m-item item m-mobile-hide " th:classappend="${n==1} ? 'active'"><i class="eject icon "></i>首页</a>
+        <a id="homePage" href="#" th:href="@{/?page=0}"  class="m-item item m-mobile-hide " th:classappend="${n==1} ? 'active'"><i class="home icon "></i>首页</a>
         <a href="#" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="tasks icon"></i>分类</a>
-        <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="clone outline icon"></i>标签</a>
+        <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="tag outline icon"></i>标签</a>
         <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4} ? 'active'"><i class="save outline icon"></i>归档</a>
         <a href="#" th:href="@{/about}" class="m-item item m-mobile-hide " th:classappend="${n==5} ? 'active'"><i class="comment icon"></i>关于我</a>
-        <!--      <a href="#" th:href="@{/admin}" class="m-item item m-mobile-hide"  th:classappend="${n==6} ? 'active'"><i class="cogs icon"></i>后台</a>-->
         <div id="search-div" class="right m-item item m-mobile-hide">
           <form name="search" action="#" th:action="@{/search}" method="post" >
             <div class="ui icon  input m-margin-tb-tiny">
@@ -96,10 +95,9 @@
 </footer>
 
 <th:block th:fragment="script">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
-<!--  <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>-->
+  <script src="../static/jsdelivr/jquery.min.js" th:src="@{/jsdelivr/jquery.min.js}"></script>
+  <script src="../static/jsdelivr/semantic.min.js" th:src="@{/jsdelivr/semantic.min.js}"></script>
+  <script src="../static/jsdelivr/jquery.scrollTo.min.js"  th:src="@{/jsdelivr/jquery.scrollTo.min.js}"></script>
   <script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
   <script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
   <script src="../static/lib/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>

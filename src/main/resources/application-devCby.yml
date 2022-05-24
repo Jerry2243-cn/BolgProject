@@ -30,10 +30,6 @@ logging:
     name: log/blog.log
 server:
   port: 8080
-#  ssl:
-#    key-store: classpath:7555118_blog.jerry2243.top.pfx
-#    key-store-password: rcf6sHlc
-#    key-store-type: PKCS12
 map-path:
   url: /uploadImages/
   path: /D://Learn/image/
