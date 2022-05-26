@@ -294,6 +294,9 @@
                 document.querySelector('#indexNavbar').style.top="0";
                 $("#nav-area").height('60px');
                 $("#welcome").remove();
+                $("#nav-items").css({
+                    'opacity':'1'
+                });
                 document.documentElement.scrollTop = 0;
                 document.body.scrollTop = 0;
                 window.removeEventListener("scroll",welcomePage);
@@ -304,6 +307,11 @@
         $(window).scroll(function(){
             b = $(this).scrollTop();   //页面滚动的高度
             c = group.offset().top;    //元素距离文档（document）顶部的高度
+            if(b > 60){
+                $("#nav-items").css({
+                    'opacity':'1'
+                });
+            }
             if(b>=c/3){
                 $(".left-index").css({
                     'left':0,
