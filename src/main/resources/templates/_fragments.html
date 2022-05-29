@@ -24,8 +24,8 @@
         <h2 id="logo" class="ui white header item">Jerry's Blog</h2>
         <a id="homePage" href="#" th:href="@{/?page=0}"  class="m-item item m-mobile-hide " th:classappend="${n==1} ? 'active'"><i class="home icon "></i>首页</a>
         <a href="#" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="tasks icon"></i>分类</a>
-        <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="tag outline icon"></i>标签</a>
-        <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4} ? 'active'"><i class="save outline icon"></i>归档</a>
+        <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="tags icon"></i>标签</a>
+        <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4} ? 'active'"><i class="save icon"></i>归档</a>
         <a href="#" th:href="@{/about}" class="m-item item m-mobile-hide " th:classappend="${n==5} ? 'active'"><i class="comment icon"></i>关于我</a>
         <div id="search-div" class="right m-item item m-mobile-hide">
           <form name="search" action="#" th:action="@{/search}" method="post" >
