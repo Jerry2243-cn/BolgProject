@@ -1,5 +1,6 @@
 package com.jerry.project.service;
 
+import com.jerry.project.cache.CacheProvider;
 import com.jerry.project.vo.User;
 import com.jerry.project.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CacheProvider cacheProvider;
 
     @Override
     public User checkUser(String username, String password) {
@@ -42,7 +45,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUser() {
-        return userRepository.findById((long)1).get();
+        if (cacheProvider.get("adminUser") == null){
+            User admin = userRepository.findById((long)1).get();
+            cacheProvider.put("adminUser",admin);
+        }
+       return cacheProvider.get("adminUser");
     }
 
     @Override
@@ -57,8 +64,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User save(User user) {
+        if(user.getId() == 1){
+            flushCache();
+        }
         if(user.getId() == null){
-
             Date date = new Date();
             user.setCreateTime(date);
             user.setUpdateTime(date);
@@ -86,4 +95,7 @@ public class UserServiceImpl implements UserService{
     }
 
 
+    private void flushCache(){
+        cacheProvider.remove("adminUser");
+    }
 }

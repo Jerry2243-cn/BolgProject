@@ -1,5 +1,6 @@
 package com.jerry.project.service;
 
+import com.jerry.project.cache.CacheProvider;
 import com.jerry.project.vo.Type;
 import com.jerry.project.vo.Blog;
 import com.jerry.project.NotFoundException;
@@ -20,10 +21,13 @@ public class TypeServiceImpl implements TypeService{
 
     @Autowired
     private TypeRepository typeRepository;
+    @Autowired
+    private CacheProvider cacheProvider;
 
     @Transactional
     @Override
     public Type saveType(Type type) {
+        flushCache();
         return typeRepository.save(type);
     }
 
@@ -51,14 +55,19 @@ public class TypeServiceImpl implements TypeService{
 
     @Override
     public List<Type> listTypeTop(Integer size) {
-        Sort sort = Sort.by(Sort.Direction.DESC,"publishedCount");
-        Pageable pageable = PageRequest.of(0,size,sort);
-        return typeRepository.findTop(pageable);
+        if(cacheProvider.get("types") == null){
+            Sort sort = Sort.by(Sort.Direction.DESC,"publishedCount");
+            Pageable pageable = PageRequest.of(0,size,sort);
+            List<Type> types =  typeRepository.findTop(pageable);
+            cacheProvider.put("types" ,types);
+        }
+        return cacheProvider.get("types");
     }
 
     @Transactional
     @Override
     public Type updateType(Long id, Type type) {
+        flushCache();
         Type t =typeRepository.findById(id).get();
         if(t == null){
             throw new NotFoundException("不存在该类型");
@@ -70,6 +79,7 @@ public class TypeServiceImpl implements TypeService{
     @Transactional
     @Override
     public void delete(Long id) {
+        flushCache();
         typeRepository.deleteById(id);
     }
 
@@ -84,5 +94,9 @@ public class TypeServiceImpl implements TypeService{
     @Override
     public boolean noBlogs(Long id) {
         return typeRepository.hasBlogs(id).isEmpty();
+    }
+
+    private void flushCache(){
+        cacheProvider.remove("types");
     }
 }

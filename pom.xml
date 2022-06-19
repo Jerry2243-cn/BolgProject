@@ -28,7 +28,7 @@
     <artifactId>project</artifactId>
     <version>0.2.1</version>
     <name>MyBlogProject</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Jerry's Blog Project</description>
 
 
     <properties>

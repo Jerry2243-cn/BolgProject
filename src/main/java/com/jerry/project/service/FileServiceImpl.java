@@ -23,11 +23,9 @@ public class FileServiceImpl implements FileService{
         if(!filePath.exists()){
             filePath.mkdirs();
         }
-        // 对上传的文件重命名，避免文件重名
         String oldName = file.getOriginalFilename();
         String newName = UUID.randomUUID() + oldName.substring(oldName.lastIndexOf("."));
         try {
-            // 文件保存
             file.transferTo(new File(dirPath+newName));
             System.out.println(dirPath+newName);
         } catch (IOException e) {

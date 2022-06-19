@@ -1,5 +1,6 @@
 package com.jerry.project.service;
 
+import com.jerry.project.cache.CacheProvider;
 import com.jerry.project.vo.Tag;
 import com.jerry.project.NotFoundException;
 import com.jerry.project.vo.Blog;
@@ -20,9 +21,12 @@ public class TagServiceImpl implements TagService{
 
     @Autowired
     private TagRepository tagRepository;
+    @Autowired
+    private CacheProvider cacheProvider;
 
     @Override
     public Tag saveTag(Tag tag) {
+        flushCache();
         return tagRepository.save(tag);
     }
 
@@ -53,9 +57,13 @@ public class TagServiceImpl implements TagService{
 
     @Override
     public List<Tag> ListTagTop(Integer size) {
-        Sort sort = Sort.by(Sort.Direction.DESC,"publishedCount");
-        Pageable pageable = PageRequest.of(0,size,sort);
-        return tagRepository.findTop(pageable);
+        if(cacheProvider.get("tags") == null){
+            Sort sort = Sort.by(Sort.Direction.DESC,"publishedCount");
+            Pageable pageable = PageRequest.of(0,size,sort);
+            List<Tag> tags = tagRepository.findTop(pageable);
+            cacheProvider.put("tags", tags);
+        }
+        return cacheProvider.get("tags");
     }
 
     private List<Long> convertToList(String ids) {
@@ -71,6 +79,7 @@ public class TagServiceImpl implements TagService{
 
     @Override
     public Tag updateTag(Long id, Tag tag) {
+        flushCache();
         Tag t =tagRepository.findById(id).get();
         if(t == null){
             throw new NotFoundException("不存在该类型");
@@ -81,11 +90,13 @@ public class TagServiceImpl implements TagService{
 
     @Override
     public void delete(Long id) {
+        flushCache();
         tagRepository.deleteById(id);
     }
 
     @Override
     public void setPublishedCount() {
+        flushCache();
         for(Tag t :tagRepository.findAll()){
             t.setPublishedCount(tagRepository.findPublishedBlogsCount(t.getId()));
             tagRepository.save(t);
@@ -97,4 +108,7 @@ public class TagServiceImpl implements TagService{
         return tagRepository.hasBlogs(id).size();
     }
 
+    private void flushCache(){
+        cacheProvider.remove("tags");
+    }
 }

@@ -43,7 +43,7 @@
         <h3>Hi！</h3>
         <p th:text="${session.user.nickname}+，欢迎登录"></p>
         <idv th:each="newComment : ${newComments}">
-          <span th:text="博客《+${newComment.blog}+》有+${newComment.count}+条新留言"></span>&nbsp&nbsp&nbsp<a th:href="@{/admin/blogs/{id}/toComments#comments(id=${newComment.id})}">点击查看</a><br/>
+          <span th:text="${newComment.blog.user.nickname}+的博客《+${newComment.blog.title}+》有+${newComment.count}+条新留言"></span>&nbsp&nbsp&nbsp<a th:href="@{/admin/blogs/{id}/toComments#comments(id=${newComment.blog.id})}">点击查看</a><br/>
         </idv>
 
       </div>

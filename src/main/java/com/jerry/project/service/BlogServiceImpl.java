@@ -2,6 +2,7 @@ package com.jerry.project.service;
 
 
 import com.jerry.project.NotFoundException;
+import com.jerry.project.cache.CacheProvider;
 import com.jerry.project.dao.BlogRepository;
 import com.jerry.project.vo.Blog;
 import com.jerry.project.vo.Type;
@@ -27,6 +28,8 @@ public class BlogServiceImpl implements BlogService{
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private CacheProvider cacheProvider;
 
     @Override
     public Blog getBlog(Long id) {
@@ -79,77 +82,104 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public Page<Blog> listBlog(Pageable pageable, BlogQuery blog) {
-        return  blogRepository.findAll((Specification<Blog>) (root, cq, cb) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            if (!"".equals(blog.getTitle()) && blog.getTitle() != null) {
-                predicates.add(cb.like(root.<String>get("title"), "%" + blog.getTitle() + "%"));
-            }
-            if (blog.getUserId() != null && blog.getUserId() != 1) {
-                predicates.add(cb.equal(root.<User>get("user").get("id"), blog.getUserId()));
-            }
-            if (blog.getTypeId() != null) {
-                predicates.add(cb.equal(root.<Type>get("type").get("id"), blog.getTypeId()));
-            }
-            if(blog.getTagId()!=null){
-                Join join = root.join("tags");
-                predicates.add(cb.equal(join.get("id"),blog.getTagId()));
-            }
-            if (blog.isRecommend()) {
-                predicates.add(cb.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
-            }
-            if(blog.isPublished()){
-                predicates.add(cb.equal(root.<Boolean>get("published"), blog.isPublished()));
-            }
-            cq.where(predicates.toArray(new Predicate[predicates.size()]));
-            return null;
-        }, pageable);
+        if(cacheProvider.get("listBlog") == null){
+            Page<Blog> blogPage = blogRepository.findAll((Specification<Blog>) (root, cq, cb) -> {
+                List<Predicate> predicates = new ArrayList<>();
+                if (!"".equals(blog.getTitle()) && blog.getTitle() != null) {
+                    predicates.add(cb.like(root.<String>get("title"), "%" + blog.getTitle() + "%"));
+                }
+                if (blog.getUserId() != null && blog.getUserId() != 1) {
+                    predicates.add(cb.equal(root.<User>get("user").get("id"), blog.getUserId()));
+                }
+                if (blog.getTypeId() != null) {
+                    predicates.add(cb.equal(root.<Type>get("type").get("id"), blog.getTypeId()));
+                }
+                if(blog.getTagId()!=null){
+                    Join join = root.join("tags");
+                    predicates.add(cb.equal(join.get("id"),blog.getTagId()));
+                }
+                if (blog.isRecommend()) {
+                    predicates.add(cb.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
+                }
+                if(blog.isPublished()){
+                    predicates.add(cb.equal(root.<Boolean>get("published"), blog.isPublished()));
+                }
+                cq.where(predicates.toArray(new Predicate[predicates.size()]));
+                return null;
+            }, pageable);
+            cacheProvider.put("listBlog", blogPage);
+        }
+        return cacheProvider.get("listBlog");
+
     }
 
     @Override
     public Page<Blog> listBlogByUser(Pageable pageable, BlogQuery blog) {
-        return  blogRepository.findAll((Specification<Blog>) (root, cq, cb) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            if (!"".equals(blog.getTitle()) && blog.getTitle() != null) {
-                predicates.add(cb.like(root.<String>get("title"), "%" + blog.getTitle() + "%"));
-            }
-            if (blog.getTypeId() != null) {
-                predicates.add(cb.equal(root.<Type>get("type").get("id"), blog.getTypeId()));
-            }
-            if(blog.getTagId()!=null){
-                Join join = root.join("tags");
-                predicates.add(cb.equal(join.get("id"),blog.getTagId()));
-            }
-            if (blog.isRecommend()) {
-                predicates.add(cb.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
-            }
-            if(blog.isPublished()){
-                predicates.add(cb.equal(root.<Boolean>get("published"), blog.isPublished()));
-            }
-            cq.where(predicates.toArray(new Predicate[predicates.size()]));
-            return null;
-        }, pageable);
+        if(cacheProvider.get("listBlogByUser") == null){
+            Page<Blog> blogPage =  blogRepository.findAll((Specification<Blog>) (root, cq, cb) -> {
+                List<Predicate> predicates = new ArrayList<>();
+                if (!"".equals(blog.getTitle()) && blog.getTitle() != null) {
+                    predicates.add(cb.like(root.<String>get("title"), "%" + blog.getTitle() + "%"));
+                }
+                if (blog.getTypeId() != null) {
+                    predicates.add(cb.equal(root.<Type>get("type").get("id"), blog.getTypeId()));
+                }
+                if(blog.getTagId()!=null){
+                    Join join = root.join("tags");
+                    predicates.add(cb.equal(join.get("id"),blog.getTagId()));
+                }
+                if (blog.isRecommend()) {
+                    predicates.add(cb.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
+                }
+                if(blog.isPublished()){
+                    predicates.add(cb.equal(root.<Boolean>get("published"), blog.isPublished()));
+                }
+                cq.where(predicates.toArray(new Predicate[predicates.size()]));
+                return null;
+            }, pageable);;
+            cacheProvider.put("listBlogByUser", blogPage);
+        }
+        return cacheProvider.get("listBlogByUser");
     }
 
     @Override
     public List<Blog> listRecommendBlogTop(Integer size) {
-        Sort sort = Sort.by(Sort.Direction.DESC,"createDate");
-        Pageable pageable = PageRequest.of(0,size,sort);
-        return blogRepository.findTop(pageable);
+        if(size == 3){
+            if(cacheProvider.get("listRecommendBlogTop3") == null){
+                Sort sort = Sort.by(Sort.Direction.DESC,"createDate");
+                Pageable pageable = PageRequest.of(0,size,sort);
+                List<Blog> blogs = blogRepository.findTop(pageable);
+                cacheProvider.put("listRecommendBlogTop3", blogs);
+            }
+            return cacheProvider.get("listRecommendBlogTop3");
+        }else {
+            if(cacheProvider.get("listRecommendBlogTop") == null){
+                Sort sort = Sort.by(Sort.Direction.DESC,"createDate");
+                Pageable pageable = PageRequest.of(0,size,sort);
+                List<Blog> blogs = blogRepository.findTop(pageable);
+                cacheProvider.put("listRecommendBlogTop", blogs);
+            }
+            return cacheProvider.get("listRecommendBlogTop");
+        }
     }
 
     @Override
     public Map<String, List<Blog>> archiveBlogs() {
-        List<String> years = blogRepository.findGroupYear();
-        Map<String,List<Blog>> map = new HashMap<>();
-        for(String year:years){
-            map.put(year, blogRepository.findByYear(year));
+        if(cacheProvider.get("archiveBlogs") == null){
+            List<String> years = blogRepository.findGroupYear();
+            Map<String,List<Blog>> map = new HashMap<>();
+            for(String year:years){
+                map.put(year, blogRepository.findByYear(year));
+            }
+            cacheProvider.put("archiveBlogs",map);
         }
-        return map;
+       return cacheProvider.get("archiveBlogs");
     }
 
     @Transactional
     @Override
     public Blog saveBlog(Blog blog) {
+        flushCache();
         if(blog.getId() == null){
             Date date = new Date();
             blog.setCreateDate(date);
@@ -165,6 +195,7 @@ public class BlogServiceImpl implements BlogService{
     @Transactional
     @Override
     public Blog updateBlog(Long id, Blog blog) {
+        flushCache();
         Blog b = blogRepository.findById(id).get();
         if (b == null) {
             throw new NotFoundException("The blog is not found");
@@ -177,6 +208,7 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public void changePublishState(Long id) {
+        flushCache();
         Blog t =blogRepository.findById(id).get();
         if(t == null){
             throw new NotFoundException("The blog is not found");
@@ -191,6 +223,7 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public void addView(Long id) {
+        flushBlogs();
         Blog blog = blogRepository.findById(id).get();
         blog.setViews(blog.getViews()+1);
         blogRepository.save(blog);
@@ -199,8 +232,8 @@ public class BlogServiceImpl implements BlogService{
     @Transactional
     @Override
     public void deleteBlog(Long id) {
+        flushCache();
         fileService.deleteFile(blogRepository.findById(id).get().getFirstPicture());
-
         blogRepository.deleteById(id);
     }
 
@@ -211,6 +244,7 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public void changeCommentState(Long id) {
+        flushCache();
         Blog t =blogRepository.findById(id).get();
         if(t == null){
             throw new NotFoundException("The blog is not found");
@@ -221,6 +255,7 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public void closeAllComments() {
+        flushCache();
         List<Blog> blogs  = blogRepository.findAll();
         for (Blog b: blogs
              ) {
@@ -229,5 +264,16 @@ public class BlogServiceImpl implements BlogService{
         blogRepository.saveAll(blogs);
     }
 
+    private void flushCache(){
+        cacheProvider.remove("listBlog");
+        cacheProvider.remove("listBlogByUser");
+        cacheProvider.remove("listRecommendBlogTop");
+        cacheProvider.remove("listRecommendBlogTop3");
+        cacheProvider.remove("archiveBlogs");
+    }
+
+    private void flushBlogs(){
+        cacheProvider.remove("listBlog");
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.jerry.project.service;
 
 import com.jerry.project.dao.CommentRepository;
+import com.jerry.project.vo.Blog;
 import com.jerry.project.vo.Comment;
 import com.jerry.project.vo.NewComment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class CommentServiceImpl implements CommentService{
         commentRepository.deleteById(id);
     }
 
+    @Override
     public List<NewComment> newComments(Long id) {
         List<NewComment> newCommentNotice = new ArrayList<>();
         List<Comment> comments = id != 1 ? commentRepository.findBySawFalseAndBlog_UserId(id) : commentRepository.findBySawFalse();
@@ -44,20 +46,21 @@ public class CommentServiceImpl implements CommentService{
             return null;
         }
         comments.sort((o1, o2) -> (int) (o2.getBlog().getCreateDate().getTime() - o1.getBlog().getCreateDate().getTime()));
-        String bolg = comments.get(0).getBlog().getTitle();
-        Long blogId = comments.get(0).getBlog().getId();
-        int count = 1;
-        for(int i = 0; i < comments.size()-1;i++){
-            if(comments.get(i).getBlog().getTitle().equals(comments.get(i+1).getBlog().getTitle())){
+        int count = 0;
+        String p = comments.get(0).getBlog().getTitle();
+        for(int i = 0; i < comments.size();i++){
+            if(p.equals(comments.get(i).getBlog().getTitle())){
                 count++;
-            }else {
-                newCommentNotice.add(new NewComment(blogId.toString(),bolg,count));
-                bolg = comments.get(i + 1).getBlog().getTitle();
-                blogId = comments.get(i+1).getBlog().getId();
-                count = 1;
+            }
+            if(i == comments.size() - 1 || !p.equals(comments.get(i+1).getBlog().getTitle())){
+                Blog bolg = comments.get(i).getBlog();
+                newCommentNotice.add(new NewComment(bolg,count));
+                count = 0;
+                if(i != comments.size() - 1){
+                    p = comments.get(i+1).getBlog().getTitle();
+                }
             }
         }
-        newCommentNotice.add(new NewComment(blogId.toString(),bolg,count));
         return newCommentNotice;
     }
 

@@ -2,29 +2,20 @@ package com.jerry.project.vo;
 
 public class NewComment {
 
-    private String id;
-    private String blog;
+    private Blog blog;
     private int count;
 
-    public NewComment(String id, String blog, int count) {
-        this.id = id;
+
+    public NewComment(Blog blog, int count) {
         this.blog = blog;
         this.count = count;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getBlog() {
+    public Blog getBlog() {
         return blog;
     }
 
-    public void setBlog(String blog) {
+    public void setBlog(Blog blog) {
         this.blog = blog;
     }
 
