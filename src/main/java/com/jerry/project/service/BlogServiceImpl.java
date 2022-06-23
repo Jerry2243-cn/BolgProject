@@ -221,12 +221,11 @@ public class BlogServiceImpl implements BlogService{
         blogRepository.save(t);
     }
 
+
     @Override
     public void addView(Long id) {
         flushBlogs();
-        Blog blog = blogRepository.findById(id).get();
-        blog.setViews(blog.getViews()+1);
-        blogRepository.save(blog);
+        blogRepository.addViews(id);
     }
 
     @Transactional

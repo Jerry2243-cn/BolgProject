@@ -73,6 +73,10 @@ public class CacheProvider {
         return cacheData == null ? null : (T)cacheData.data;
     }
 
+    public synchronized void removeALl(){
+        cacheDatas.clear();
+    }
+
 
     class CacheData {
 

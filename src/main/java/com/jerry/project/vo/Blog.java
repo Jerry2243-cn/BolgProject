@@ -1,6 +1,7 @@
 package com.jerry.project.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Proxy(lazy = false)
 @Table(name ="t_blog")
 public class Blog {
 

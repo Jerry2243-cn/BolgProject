@@ -1,5 +1,6 @@
 package com.jerry.project.aspect;
 
+import com.jerry.project.util.IPUtils;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -24,17 +25,22 @@ public class LogAspect {
     public void log(){}
 
     @Before("log()")
-    public void deBefore(JoinPoint joinPoint){
+    public void deBefore(JoinPoint joinPoint) throws Exception {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        String device = getDevice(request.getHeader("User-Agent"));
         String url = request.getRequestURL().toString();
         String ip = request.getRemoteAddr();
         String classMethod = joinPoint.getSignature().getDeclaringTypeName()+"."+ joinPoint.getSignature().getName();
         Object[] args = joinPoint.getArgs();
         RequestLog requestLog = new RequestLog(url,ip,classMethod,args);
         logger.info("Request : {}",requestLog);
-        logger.info("RequestDevice : {}",device);
+        new Thread(()-> {
+            try {
+                logger.info("Essential : {}","url="+url+", ip="+ip+" "+IPUtils.getIpAddress(ip));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
     }
 
     @After("log()")
@@ -42,22 +48,6 @@ public class LogAspect {
 //        logger.info("-------after------");
     }
 
-    private String getDevice(String userAgent) {
-        //解析agent字符串
-        UserAgent ua = UserAgent.parseUserAgentString(userAgent);
-        //获取浏览器对象
-        Browser browser = ua.getBrowser();
-        //获取操作系统对象
-        OperatingSystem os = ua.getOperatingSystem();
-        return String.format("{Device='%s',OS='%s',Browser-Name='%s',Browser-Version='%s',Rendering-Engine='%s',User-Agent=[%s]}",
-                os.getDeviceType(),
-                os.getName(),
-                browser.getName(),
-                browser.getVersion(userAgent),
-                browser.getRenderingEngine(),
-                userAgent
-        );
-    }
 
     @AfterReturning(returning = "result",pointcut = "log()")
     public void doAfterReturn(Object result){
