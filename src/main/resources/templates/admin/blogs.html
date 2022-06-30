@@ -80,6 +80,11 @@
         </div>
       </div>
     </div>
+    <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+      <i class="close icon"></i>
+      <div class="header">提示：</div>
+      <p th:text="${message}">操作成功！</p>
+    </div>
     <div id="table-container">
       <table th:fragment="blogList" class="ui compact black table">
         <thead>
@@ -109,7 +114,7 @@
             <div class="bq" >
               <a href="#" th:href="@{/admin/blogs/{id}/preview(id=${blog.id})}"  th:text="${blog.published} ? '浏览':'预览'" class="ui mini teal basic button">预览</a>
               <a href="#" th:href="@{/admin/blogs/{id}/input(id=${blog.id})}" class="ui mini brown basic button">编辑</a>
-              <a href="#" th:href="@{/admin/blogs/{id}/publish(id=${blog.id})}" th:text="${blog.published} ? '撤回':'发布'" class="ui mini blue basic button">发布</a>
+              <a href="#" th:href="${blog.published} ? @{/admin/blogs/{id}/publish(id=${blog.id})}:@{/admin/blogs/{id}/preview(id=${blog.id})}" th:text="${blog.published} ? '撤回':'发布'" class="ui mini blue basic button">发布</a>
               <a href="#" th:href="@{/admin/blogs/{id}/comment(id=${blog.id})}" th:text="${blog.allowComment} ? '关闭留言区':'开启留言区'" class="ui mini yellow basic button">开启留言区</a>
               <a href="#" th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}" onclick="return confirm('确定删除?');" class="ui mini red basic button">删除</a>
             </div>
@@ -130,11 +135,7 @@
         </tr>
         </tfoot>
       </table>
-      <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
-        <i class="close icon"></i>
-        <div class="header">提示：</div>
-        <p th:text="${message}">操作成功！</p>
-      </div>
+
 
     </div>
 

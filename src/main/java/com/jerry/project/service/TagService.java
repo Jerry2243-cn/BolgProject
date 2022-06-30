@@ -27,7 +27,7 @@ public interface TagService {
 
     void delete(Long id);
 
-    void setPublishedCount();
+    void setPublishedCount(Long id);
 
     int hasBlogs(Long id);
 }

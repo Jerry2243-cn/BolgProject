@@ -21,12 +21,12 @@ public class TagServiceImpl implements TagService{
 
     @Autowired
     private TagRepository tagRepository;
-    @Autowired
-    private CacheProvider cacheProvider;
+//    @Autowired
+//    private CacheProvider cacheProvider;
 
     @Override
     public Tag saveTag(Tag tag) {
-        flushCache();
+//        flushCache();
         return tagRepository.save(tag);
     }
 
@@ -57,13 +57,9 @@ public class TagServiceImpl implements TagService{
 
     @Override
     public List<Tag> ListTagTop(Integer size) {
-        if(cacheProvider.get("tags") == null){
             Sort sort = Sort.by(Sort.Direction.DESC,"publishedCount");
             Pageable pageable = PageRequest.of(0,size,sort);
-            List<Tag> tags = tagRepository.findTop(pageable);
-            cacheProvider.put("tags", tags);
-        }
-        return cacheProvider.get("tags");
+            return tagRepository.findTop(pageable);
     }
 
     private List<Long> convertToList(String ids) {
@@ -79,7 +75,7 @@ public class TagServiceImpl implements TagService{
 
     @Override
     public Tag updateTag(Long id, Tag tag) {
-        flushCache();
+//        flushCache();
         Tag t =tagRepository.findById(id).get();
         if(t == null){
             throw new NotFoundException("不存在该类型");
@@ -90,14 +86,15 @@ public class TagServiceImpl implements TagService{
 
     @Override
     public void delete(Long id) {
-        flushCache();
+//        flushCache();
         tagRepository.deleteById(id);
     }
 
     @Override
-    public void setPublishedCount() {
-        flushCache();
-        for(Tag t :tagRepository.findAll()){
+    public void setPublishedCount(Long id) {
+//        flushCache();
+        List<Tag> tags = tagRepository.findTagsByBlog(id);
+        for(Tag t :tags){
             t.setPublishedCount(tagRepository.findPublishedBlogsCount(t.getId()));
             tagRepository.save(t);
         }
@@ -108,7 +105,7 @@ public class TagServiceImpl implements TagService{
         return tagRepository.hasBlogs(id).size();
     }
 
-    private void flushCache(){
-        cacheProvider.remove("tags");
-    }
+//    private void flushCache(){
+//        cacheProvider.remove("tags");
+//    }
 }

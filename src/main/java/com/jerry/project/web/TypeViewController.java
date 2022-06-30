@@ -27,7 +27,7 @@ public class TypeViewController {
     @GetMapping("/types/{id}")
     public String types(@PageableDefault(size = 8, sort = {"updateDate"}, direction = Sort.Direction.DESC) Pageable pageable,
                         @PathVariable Long id, Model model) {
-        typeService.setPublishedCount();
+//        typeService.setPublishedCount();
         List<Type> types = typeService.listTypeTop(10000);
         if (id == -1) {
             id = types.get(0).getId();

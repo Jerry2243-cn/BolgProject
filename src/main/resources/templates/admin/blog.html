@@ -39,6 +39,11 @@
 <!--中间内容-->
 <div id="waypoint" class="m-container-small m-padded-tb-big animated fadeIn">
     <div class="ui container">
+        <div class="ui success message" th:if="!${blog.published}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p>预览后确认无误在文章底部点击【发布】</p>
+        </div>
         <div class="ui top attached segment">
             <div class="ui horizontal link list">
 
@@ -474,9 +479,9 @@ h5,h6{font-size:1em;}
             </div>
         </div>
         <input type="hidden" name="blogId" th:value="${blog.id}">
-        <div id="comments" class="ui padded segment" th:if="${blog.allowComment}">
-            <div id="comment-area" th:fragment="commentList" >
-                <h2 class="ui header">留言区</h2>
+        <div id="comments" class="ui padded segment">
+            <div  id="comment-area" th:fragment="commentList" >
+                <h2 class="ui header" th:text="${blog.allowComment} ? '留言区' : '留言区(前台已关闭）'" >留言区</h2>
                 <div class="ui attached segment m-padded" th:each="comment : ${comments}">
                     <div class="ui horizontal link list">
                         <div class="item">
@@ -496,6 +501,10 @@ h5,h6{font-size:1em;}
                 </div>
             </div>
 
+        </div>
+        <div th:if="!${blog.published}" class="ui center aligned basic segment">
+            <a href="#" th:href="@{/admin/blogs/{id}/input(id=${blog.id})}" class="ui large button">继续编辑</a>
+            <a href="#" th:href="@{/admin/blogs/{id}/publish(id=${blog.id})}" th:text="${blog.published} ? '撤回博客':'发布博客'" class="ui large black button">发布</a>
         </div>
     </div>
 </div>

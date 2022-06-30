@@ -28,7 +28,7 @@ public class TagViewController {
     @GetMapping("/tags/{id}")
     public String Tags(@PageableDefault(size = 8, sort = {"updateDate"}, direction = Sort.Direction.DESC) Pageable pageable,
                         @PathVariable Long id, Model model) {
-        tagService.setPublishedCount();
+//        tagService.setPublishedCount();
         List<Tag> tags = tagService.ListTagTop(10000);
         if (id == -1) {
             id = tags.get(0).getId();

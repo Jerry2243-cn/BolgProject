@@ -21,13 +21,12 @@ public class TypeServiceImpl implements TypeService{
 
     @Autowired
     private TypeRepository typeRepository;
-    @Autowired
-    private CacheProvider cacheProvider;
+//    @Autowired
+//    private CacheProvider cacheProvider;
 
     @Transactional
     @Override
     public Type saveType(Type type) {
-        flushCache();
         return typeRepository.save(type);
     }
 
@@ -55,19 +54,16 @@ public class TypeServiceImpl implements TypeService{
 
     @Override
     public List<Type> listTypeTop(Integer size) {
-        if(cacheProvider.get("types") == null){
             Sort sort = Sort.by(Sort.Direction.DESC,"publishedCount");
             Pageable pageable = PageRequest.of(0,size,sort);
-            List<Type> types =  typeRepository.findTop(pageable);
-            cacheProvider.put("types" ,types);
-        }
-        return cacheProvider.get("types");
+            return typeRepository.findTop(pageable);
+
     }
 
     @Transactional
     @Override
     public Type updateType(Long id, Type type) {
-        flushCache();
+
         Type t =typeRepository.findById(id).get();
         if(t == null){
             throw new NotFoundException("不存在该类型");
@@ -79,16 +75,14 @@ public class TypeServiceImpl implements TypeService{
     @Transactional
     @Override
     public void delete(Long id) {
-        flushCache();
         typeRepository.deleteById(id);
     }
 
     @Override
-    public void setPublishedCount() {
-        for(Type t :typeRepository.findAll()){
-            t.setPublishedCount(typeRepository.findPublishedBlogs(t.getId()));
-            typeRepository.save(t);
-        }
+    public void setPublishedCount(Long id) {
+        Type t = typeRepository.findByBlogId(id);
+        t.setPublishedCount(typeRepository.findPublishedBlogs(t.getId()));
+        typeRepository.save(t);
     }
 
     @Override
@@ -96,7 +90,7 @@ public class TypeServiceImpl implements TypeService{
         return typeRepository.hasBlogs(id).isEmpty();
     }
 
-    private void flushCache(){
-        cacheProvider.remove("types");
-    }
+//    private void flushCache(){
+//        cacheProvider.remove("types");
+//    }
 }

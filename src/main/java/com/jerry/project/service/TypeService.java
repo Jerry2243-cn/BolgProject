@@ -24,7 +24,7 @@ public interface TypeService {
 
     void delete(Long id);
 
-    void setPublishedCount();
+    void setPublishedCount(Long id);
 
     boolean noBlogs(Long id);
 

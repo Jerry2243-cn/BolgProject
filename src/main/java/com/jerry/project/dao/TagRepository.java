@@ -23,4 +23,6 @@ public interface TagRepository extends JpaRepository<Tag,Long> {
     @Query("select count (b) from Blog b inner join b.tags t where t.id = :id and b.published = true ")
     int findPublishedBlogsCount(@Param("id") Long id);
 
+    @Query("select b.tags from Blog b where b.id = :id")
+    List<Tag> findTagsByBlog(@Param("id") Long id);
 }

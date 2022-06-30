@@ -100,16 +100,16 @@ public class BlogController {
     @GetMapping("blogs/{id}/publish")
     public String changePublishState(@PathVariable Long id,RedirectAttributes attributes) {
         blogService.changePublishState(id);
-        typeService.setPublishedCount();
-        tagService.setPublishedCount();
-        attributes.addFlashAttribute("message", "操作成功");
+        typeService.setPublishedCount(id);
+        tagService.setPublishedCount(id);
+        attributes.addFlashAttribute("message", blogService.getBlog(id).isPublished() ? "已发布" : "已撤回");
         return REDIRECT_LIST;
     }
 
     @GetMapping("blogs/{id}/comment")
     public String changeCommentState(@PathVariable Long id,RedirectAttributes attributes) {
         blogService.changeCommentState(id);
-        attributes.addFlashAttribute("message", "操作成功");
+        attributes.addFlashAttribute("message", blogService.getBlog(id).isAllowComment() ? "开启评论区成功" : "关闭评论区成功");
         return REDIRECT_LIST;
     }
 
@@ -118,7 +118,7 @@ public class BlogController {
         User user = (User) session.getAttribute("user");
         if(user.getId() == 1){
             blogService.closeAllComments();
-            attributes.addFlashAttribute("message", "操作成功");
+            attributes.addFlashAttribute("message", "关闭评论区成功");
         }else{
             attributes.addFlashAttribute("message", "只有Jerry才能关闭所有留言区");
         }
@@ -126,9 +126,13 @@ public class BlogController {
     }
 
     @GetMapping("/blogs/{id}/input")
-    public String editInput(@PathVariable Long id,Model model,HttpSession session){
+    public String editInput(@PathVariable Long id,Model model,HttpSession session, RedirectAttributes attributes){
         if (!check(session,blogService.getBlog(id).getUser().getId())){
             return "error/404";
+        }
+        if(blogService.getBlog(id).isPublished()){
+            attributes.addFlashAttribute("message", "撤回后才能编辑");
+            return REDIRECT_LIST;
         }
         model.addAttribute("types", typeService.listType());
         model.addAttribute("tags", tagService.ListTag());
@@ -156,9 +160,9 @@ public class BlogController {
             b = blogService.updateBlog(blog.getId(),blog);
         }
         if (b == null){
-            attributes.addFlashAttribute("message","操作失败");
+            attributes.addFlashAttribute("message","保存失败");
         }else{
-            attributes.addFlashAttribute("message","操作成功");
+            attributes.addFlashAttribute("message","保存成功");
         }
         return REDIRECT_LIST;
     }
