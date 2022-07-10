@@ -77,7 +77,7 @@
             </div>
 
             <div class="five wide column">
-              <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" >
+              <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" th:if="${blog.firstPicture} != ''">
                 <img src="https://unsplash.it/800/450?image=1005" th:src="@{${blog.firstPicture}}"  alt="" class="ui rounded image">
               </a>
             </div>

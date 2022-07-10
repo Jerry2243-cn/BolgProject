@@ -40,7 +40,7 @@ public class LogAspect {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }).start();
+        },"Essential Thread").start();
     }
 
     @After("log()")
