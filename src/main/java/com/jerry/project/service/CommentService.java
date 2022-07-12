@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface CommentService {
 
+    List<Comment> getALl();
+
     Comment saveComment(Comment comment);
 
     List<Comment> getCommentsByBlogId(Long id);

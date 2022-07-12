@@ -1,8 +1,10 @@
 package com.jerry.project.web;
 
 import com.jerry.project.service.*;
+import com.jerry.project.util.IPUtils;
 import com.jerry.project.vo.Blog;
 import com.jerry.project.vo.BlogQuery;
+import com.jerry.project.vo.Comment;
 import com.jerry.project.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 import java.util.HashMap;
+import java.util.List;
 
 import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
@@ -36,7 +39,7 @@ public class indexController {
 
     @GetMapping("/")
     public String index(@PageableDefault(size = 8,sort = "createDate",direction = Sort.Direction.DESC)Pageable pageable,
-                        Model model){
+                        Model model) throws Exception {
         BlogQuery blogQuery = new BlogQuery();
         blogQuery.setPublished(true);
         model.addAttribute("page",blogService.listBlog(pageable,blogQuery));
@@ -45,6 +48,7 @@ public class indexController {
         model.addAttribute("recommendBlogs",blogService.listRecommendBlogTop(8));
         return "index";
     }
+
 
     @ResponseBody
     @GetMapping("/json")

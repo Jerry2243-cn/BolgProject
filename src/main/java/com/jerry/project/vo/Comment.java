@@ -16,6 +16,8 @@ public class Comment {
     private Date createTime;
     private String username;
     private String ip;
+
+    private String ipAddress;
     private boolean saw;
    @JsonIgnore
     @ManyToOne
@@ -67,6 +69,14 @@ public class Comment {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
     public Blog getBlog() {

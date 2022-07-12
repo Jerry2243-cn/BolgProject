@@ -80,12 +80,15 @@ public class BlogController {
     }
 
     @GetMapping("blogs/{bId}/preview/{id}")
-    public String deleteComment(@PathVariable Long id,@PathVariable Long bId, HttpSession session){
+    public String deleteComment(@PathVariable Long id,@PathVariable Long bId, HttpSession session, Model model){
         if (!check(session,blogService.getBlog(bId).getUser().getId())){
             return "error/404";
         }
         commentService.delete(id);
+//        model.addAttribute("blog",blogService.getAndPreView(bId));
+//        model.addAttribute("comments",commentService.getCommentsByBlogId(bId));
         return "redirect:/admin/blogs/"+bId+"/preview";
+//        return "admin/blog :: commentList";
     }
 
 

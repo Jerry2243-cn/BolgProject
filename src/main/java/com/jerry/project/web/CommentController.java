@@ -2,6 +2,7 @@ package com.jerry.project.web;
 
 import com.jerry.project.service.BlogService;
 import com.jerry.project.service.CommentService;
+import com.jerry.project.util.IPUtils;
 import com.jerry.project.vo.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +23,10 @@ public class CommentController {
     public String sendComment( Comment comment,
                               Long blogId,
                               HttpServletRequest httpServletRequest,
-                               Model model){
+                               Model model) throws Exception {
         comment.setBlog(blogService.getBlog(blogId));
         comment.setIp(httpServletRequest.getRemoteAddr());
+        comment.setIpAddress(IPUtils.getCommentIp(httpServletRequest.getRemoteAddr()));
         commentService.saveComment(comment);
         model.addAttribute("comments",commentService.getCommentsByBlogId(blogId));
         return "blog :: commentList";

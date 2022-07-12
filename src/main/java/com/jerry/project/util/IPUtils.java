@@ -9,24 +9,37 @@ import org.apache.http.util.EntityUtils;
 import org.apache.http.HttpEntity;
 import org.springframework.util.StringUtils;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class IPUtils {
 
+    public static String getCommentIp(String ip) throws Exception {
+        String html = doGetAsStr("https://www.ipshudi.com/"+ip+"/");
+        String div = getAddress(html, "<td>\n<span>.*</span>\n");
+        String address = div == null ? "未知" : div.split("<span>")[1].split("</span>")[0];
+        String res = address.replace("中国 ","");
+        String[] ads = res.split(" ");
+        if(ads.length > 2){
+            return ads[0] + " " + ads[1];
+        }else{
+            return res;
+        }
+    }
+
     public static String getIpAddress(String ip) throws Exception {
-        String html = doGetAsStr("https://www.ip.cn/ip/"+ip+".html");
-        String div = getAddress(html, "<div id=\"tab0_address\">.*</div>");
-        return div.split("<div id=\"tab0_address\">")[1].split("</div>")[0];
+        String html = doGetAsStr("https://www.ipshudi.com/"+ip+"/");
+        String div = getAddress(html, "<td>\n<span>.*</span>\n");
+        String div1 = getAddress(html, "<td class=\"th\">运营商</td><td><span>.*</span>");
+        return (div == null ? "未知归属地" : div.split("<span>")[1].split("</span>")[0]) + " "
+                + (div1 == null ? "" : div1.split("<span>")[1].split("</span>")[0]);
     }
 
     private static String doGetAsStr(String url) throws Exception {
         if (StringUtils.isEmpty(url)) {
             throw new Exception("地址为空");
         }
-
-        // URI m_url = new URI(url);
-        // URLDecoder.decode(url,"UTF-8");
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
 

@@ -481,7 +481,7 @@ h5,h6{font-size:1em;}
                     <div class="ui horizontal link list">
                         <div class="item">
                             <span class="m-text m-black" th:text="${comment.username} == Jerrytrue ? Jerry : ${comment.username}" th:classappend="${comment.username == 'Jerrytrue' } ? 'true-jerry'"></span>
-                            <span class=" m-text-thin">&nbsp&nbsp来自IP：</span><span class="m-text-thin" th:text="${comment.ip}"></span>
+                            <span class=" m-text-thin">&nbsp&nbsp来自IP：</span><span class="m-text-thin" th:text="${comment.ipAddress}"></span>
                         </div>
                         <br/>
                     <div class="item">
@@ -618,15 +618,17 @@ h5,h6{font-size:1em;}
     });
 
     function checkInfo(){
-        if($("[name = 'username']").val().length > 20){
+        var username = $.trim($("[name = 'username']").val());
+        var content = $.trim($("[name = 'content']").val());
+        if(username.length > 20){
             alert("昵称不能多于20个字符");
             return false;
         }
-        if($("[name = 'username']").val() == ""){
+        if(username == ""){
             alert("请输入昵称，不能为空哦");
             return false;
         }
-        if($("[name = 'content']").val() == ""){
+        if(content == ""){
             alert("请输入留言内容哦")
             return false;
         }

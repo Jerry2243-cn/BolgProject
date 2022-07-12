@@ -17,8 +17,13 @@ public class CommentServiceImpl implements CommentService{
     private CommentRepository commentRepository;
 
     @Override
+    public List<Comment> getALl() {
+        return commentRepository.findAll();
+    }
+
+    @Override
     public Comment saveComment(Comment comment) {
-        comment.setCreateTime(new Date());
+//        comment.setCreateTime(new Date());
         return commentRepository.save(comment);
     }
 
@@ -28,8 +33,9 @@ public class CommentServiceImpl implements CommentService{
         if(comments.size() == 0){
             return null;
         }
-        comments.sort((o1, o2) -> (int) (o2.getCreateTime().getTime() - o1.getCreateTime().getTime()));
+        comments.sort((o1, o2) -> (o2.getCreateTime().getTime() > o1.getCreateTime().getTime() ? 0 : -1));
         return comments;
+
     }
 
     @Transactional
@@ -45,7 +51,7 @@ public class CommentServiceImpl implements CommentService{
         if(comments.size() == 0){
             return null;
         }
-        comments.sort((o1, o2) -> (int) (o2.getBlog().getCreateDate().getTime() - o1.getBlog().getCreateDate().getTime()));
+        comments.sort((o1, o2) -> (o2.getCreateTime().getTime() > o1.getCreateTime().getTime() ? 0 : -11));
         int count = 0;
         String p = comments.get(0).getBlog().getTitle();
         for(int i = 0; i < comments.size();i++){
@@ -54,6 +60,7 @@ public class CommentServiceImpl implements CommentService{
             }
             if(i == comments.size() - 1 || !p.equals(comments.get(i+1).getBlog().getTitle())){
                 Blog bolg = comments.get(i).getBlog();
+//                bolg.setContent("");
                 newCommentNotice.add(new NewComment(bolg,count));
                 count = 0;
                 if(i != comments.size() - 1){
